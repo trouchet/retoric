@@ -1,5 +1,6 @@
 import { isNumber } from "lodash";
 import { isReasoningArtifact } from "../checkers";
+import { OperationError } from "../errors";
 import {
   applyReasoningArtifact,
   getPremiseKeys,
@@ -62,7 +63,7 @@ describe("utils", () => {
     expect(result).toEqual(expectation);
 
     result = () => batchOperation([1, 2, "3"], (a, b) => a + b, 0, isNumber);
-    expectation = TypeError;
+    expectation = OperationError;
 
     expect(result).toThrow(expectation);
   });
@@ -89,7 +90,9 @@ describe("utils", () => {
     expect(result).toThrow(TypeError);
 
     result = () => batchAnd(true);
-    expect(result).toThrow(TypeError);
+    expectation = OperationError;
+
+    expect(result).toThrow(expectation);
 
     result = or(true, true);
     expect(result).toEqual(true);
@@ -110,10 +113,14 @@ describe("utils", () => {
     expect(result).toEqual(true);
 
     result = () => batchOr([true, 42]);
-    expect(result).toThrow(TypeError);
+    expectation = OperationError;
+
+    expect(result).toThrow(expectation);
 
     result = () => batchOr(true);
-    expect(result).toThrow(TypeError);
+    expectation = OperationError;
+
+    expect(result).toThrow(expectation);
   });
 });
 
