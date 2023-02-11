@@ -12,5 +12,4 @@ export const isInjunction = (candidate) => candidate instanceof Injunction;
 export const isReasoningArtifact = (candidate) => is(candidate, isReasoning);
 export const isPremiseArtifact = (candidate) => is(candidate, isPremise);
 export const isInjunctionArtifact = (candidate) => is(candidate, isInjunction);
-export const isConjunctionArtifact = (candidate) =>
-  is(candidate, isConjunction);
+export const isConjunctionArtifact = (candidate) => is(candidate, isConjunction);

@@ -10,12 +10,7 @@ import {
   isPremiseArtifact,
   isReasoningArtifact,
 } from "../checkers";
-import {
-  conjunctions,
-  injunctions,
-  premiseArtifacts,
-  premises,
-} from "./fixtures";
+import { conjunctions, injunctions, premiseArtifacts, premises } from "./fixtures";
 
 let result, expectation;
 

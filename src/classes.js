@@ -97,11 +97,7 @@ export class Conjunction extends Reasoning {
     const arguments_ = andify(applyReasoningArtifact(this.value, talkMap));
     const conjunctionAsPremiseKey = `${this.key}=${arguments_}`;
 
-    return new Premise(
-      conjunctionAsPremiseKey,
-      this.description,
-      this.conclude(),
-    );
+    return new Premise(conjunctionAsPremiseKey, this.description, this.conclude());
   }
 
   toArgument() {
@@ -132,11 +128,7 @@ export class Injunction extends Reasoning {
     const arguments_ = orify(applyReasoningArtifact(this.value, talkMap));
     const injunctionAsPremiseKey = `${this.key}=${arguments_}`;
 
-    return new Premise(
-      injunctionAsPremiseKey,
-      this.description,
-      this.conclude(),
-    );
+    return new Premise(injunctionAsPremiseKey, this.description, this.conclude());
   }
 
   toArgument() {

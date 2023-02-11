@@ -4,16 +4,8 @@ import { Conjunction, Injunction, Premise, Reasoning } from "../classes";
 export const reason = new Reasoning("reason", "This is a reason", true);
 
 // Premises
-export const truePremise = new Premise(
-  "true_premise",
-  "This is a true premise",
-  true,
-);
-export const falsePremise = new Premise(
-  "false_premise",
-  "This is a false premise",
-  false,
-);
+export const truePremise = new Premise("true_premise", "This is a true premise", true);
+export const falsePremise = new Premise("false_premise", "This is a false premise", false);
 
 export const expectedTruePremiseArgument = { true_premise: true };
 export const expectedFalsePremiseArgument = { false_premise: false };
@@ -28,15 +20,9 @@ export const expectedPremisesEntries = [
 ];
 
 export const expectedPremisesKeys = ["true_premise", "false_premise"];
-export const expectedPremisesArguments = [
-  { true_premise: true },
-  { false_premise: false },
-];
+export const expectedPremisesArguments = [{ true_premise: true }, { false_premise: false }];
 export const expectedPremisesConclusions = [true, false];
-export const expectedPremisesVerbalizations = [
-  "(true_premise:true)",
-  "(false_premise:false)",
-];
+export const expectedPremisesVerbalizations = ["(true_premise:true)", "(false_premise:false)"];
 
 // Premise artifacts
 export const premiseArtifacts = [
@@ -68,16 +54,8 @@ for (const i in premiseArtifacts) {
     value: premiseArtifacts[i],
   };
 
-  injunction = new Injunction(
-    injprops.key,
-    injprops.description,
-    injprops.value,
-  );
-  conjunction = new Conjunction(
-    conjprops.key,
-    conjprops.description,
-    conjprops.value,
-  );
+  injunction = new Injunction(injprops.key, injprops.description, injprops.value);
+  conjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
 
   injunctions.push(injunction);
   conjunctions.push(conjunction);
@@ -120,11 +98,7 @@ injprops = {
   value: truePremise,
 };
 
-singlePremiseInjunction = new Injunction(
-  injprops.key,
-  injprops.description,
-  injprops.value,
-);
+singlePremiseInjunction = new Injunction(injprops.key, injprops.description, injprops.value);
 
 export const expectedSinglePremiseInjunctionConclusion = true;
 
@@ -135,10 +109,6 @@ conjprops = {
   value: falsePremise,
 };
 
-singlePremiseConjunction = new Conjunction(
-  conjprops.key,
-  conjprops.description,
-  conjprops.value,
-);
+singlePremiseConjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
 
 export const expectedSinglePremiseConjunctionConclusion = false;

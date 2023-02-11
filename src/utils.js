@@ -23,10 +23,8 @@ export const batchOperation = (list, operation, defaultValue, isCallback) => {
   }
 };
 
-export const batchAnd = (booleanList) =>
-  batchOperation(booleanList, and, true, isBoolean);
-export const batchOr = (booleanList) =>
-  batchOperation(booleanList, or, false, isBoolean);
+export const batchAnd = (booleanList) => batchOperation(booleanList, and, true, isBoolean);
+export const batchOr = (booleanList) => batchOperation(booleanList, or, false, isBoolean);
 
 export const applyReasoningArtifact = (candidate, reasoningCallback) =>
   apply(candidate, isReasoning, reasoningCallback);
@@ -34,20 +32,16 @@ export const applyReasoningArtifact = (candidate, reasoningCallback) =>
 export const getPremisesEntries = (premises) =>
   apply(premises, isPremise, (premise) => [premise.key, premise.value]);
 
-export const getPremiseKeys = (premises) =>
-  apply(premises, isPremise, (premise) => premise.key);
+export const getPremiseKeys = (premises) => apply(premises, isPremise, (premise) => premise.key);
 
 /*----------------------------------------------------------------------------------------------*\
  | String manipulators                                                                          |
 \*----------------------------------------------------------------------------------------------*/
 
 export const stringifier = (artifact) =>
-  isArray(artifact)
-    ? artifact.map((element) => String(element))
-    : String(artifact);
+  isArray(artifact) ? artifact.map((element) => String(element)) : String(artifact);
 
-export const delimitify = (strings, delimiter) =>
-  stringifier(strings).join(delimiter);
+export const delimitify = (strings, delimiter) => stringifier(strings).join(delimiter);
 export const slugify = (strings) => stringifier(strings).join("_");
 export const hyphenify = (strings) => stringifier(strings).join("-");
 export const andify = (strings) => stringifier(strings).join("&");
