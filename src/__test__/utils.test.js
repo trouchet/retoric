@@ -1,3 +1,4 @@
+import { isNumber } from "lodash";
 import { isReasoningArtifact } from "../checkers";
 import {
   applyReasoningArtifact,
@@ -12,6 +13,8 @@ import {
   delimitify,
   slugify,
   stringifier,
+  batchOperation,
+  hyphenify,
 } from "../utils";
 import {
   expectedPremisesEntries,
@@ -52,6 +55,17 @@ describe("utils", () => {
 
     expect(result).toThrow(expectation);
   });
+  it('assert batch operation', () => {
+    result = batchOperation([1,2,3], (a, b) => a+b, 0, isNumber);
+    expectation = 6;
+    
+    expect(result).toEqual(expectation);
+
+    result = () => batchOperation([1,2,'3'], (a, b) => a+b, 0, isNumber);
+    expectation = TypeError;
+    
+    expect(result).toThrow(expectation);
+  });
   it('assert batch operators "and" and "or"', () => {
     result = and(true, true);
     expect(result).toEqual(true);
@@ -73,9 +87,6 @@ describe("utils", () => {
 
     result = () => batchAnd([true, 42]);
     expect(result).toThrow(TypeError);  
-
-    result = () => batchAnd([true, 42]);
-    expect(result).toThrow(TypeError);
 
     result = () => batchAnd(true);
     expect(result).toThrow(TypeError);
@@ -109,7 +120,7 @@ describe("utils", () => {
 const numberList = [1,2,3];
 
 describe("delimitify", () => {
-  it("must return string delimited by hyphen -", () => {
+  it("must return string delimited by plus +", () => {
     const result = delimitify(numberList, "+");
 
     expect(result).toBe("1+2+3");
@@ -118,6 +129,11 @@ describe("delimitify", () => {
     const result = slugify(numberList);
 
     expect(result).toBe("1_2_3");
+  });
+  it("must return string delimited by underscore _", () => {
+    const result = hyphenify(numberList);
+    
+    expect(result).toBe("1-2-3");
   });
   it("must return string delimited by pipe |", () => {
     const result = orify(numberList);

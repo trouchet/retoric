@@ -10,7 +10,7 @@ import { apply } from "arqeo";
 export const and = (acc, el) => acc && el;
 export const or = (acc, el) => acc || el;
 
-const batchOperation = (list, operation, defaultValue, isCallback) => {
+export const batchOperation = (list, operation, defaultValue, isCallback) => {
   const error_message =
     "Batch operations expect a list of true-isCallback values.";
 
@@ -31,20 +31,17 @@ export const batchOr = (booleanList) => batchOperation(booleanList, or, false, i
 export const applyReasoningArtifact = (candidate, reasoningCallback) =>
   apply(candidate, isReasoning, reasoningCallback);
 
-const premiseKeyValueCallback = (premise) => [premise.key, premise.value];
 export const getPremisesEntries = (premises) => 
-  apply(premises, isPremise, premiseKeyValueCallback);
+  apply(premises, isPremise, (premise) => [premise.key, premise.value]);
 
-const premiseKeyCallback = (premise) => premise.key;
-export const getPremiseKeys = (premises) => apply(premises, isPremise, premiseKeyCallback);
+export const getPremiseKeys = (premises) => apply(premises, isPremise, (premise) => premise.key);
 
 /*----------------------------------------------------------------------------------------------*\
  | String manipulators                                                                          |
 \*----------------------------------------------------------------------------------------------*/
 
-const stringifyMap = (element) => String(element);
 export const stringifier = (artifact) =>
-  isArray(artifact) ? artifact.map(stringifyMap) : String(artifact);
+  isArray(artifact) ? artifact.map((element) => String(element)) : String(artifact);
 
 export const delimitify = (strings, delimiter) => stringifier(strings).join(delimiter);
 export const slugify = (strings) => stringifier(strings).join("_");
