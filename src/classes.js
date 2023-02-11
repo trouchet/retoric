@@ -3,7 +3,7 @@ import { isBoolean } from "lodash";
 import { InterfaceError } from "./errors";
 
 import {
-  andify, 
+  andify,
   orify,
   applyReasoningArtifact,
   batchAnd,
@@ -12,7 +12,7 @@ import {
 } from "./utils";
 
 export class Reasoning {
-  _booleanReduceMap = undefined;
+  _conclusionMap = undefined;
 
   constructor(key, description, value) {
     this.key = key;
@@ -89,7 +89,7 @@ export class Premise extends Reasoning {
 export class Conjunction extends Reasoning {
   constructor(key, description, value) {
     super(key, description, value);
-    this._booleanReduceMap = batchAnd;
+    this._conclusionMap = batchAnd;
   }
 
   toPremise() {
@@ -100,7 +100,7 @@ export class Conjunction extends Reasoning {
     return new Premise(
       conjunctionAsPremiseKey,
       this.description,
-      this.conclude()
+      this.conclude(),
     );
   }
 
@@ -113,7 +113,7 @@ export class Conjunction extends Reasoning {
     const conclusion = applyReasoningArtifact(this.value, concludeMap);
     const IsBooleanCondition = isBoolean(conclusion);
 
-    return IsBooleanCondition ? conclusion : this._booleanReduceMap(conclusion);
+    return IsBooleanCondition ? conclusion : this._conclusionMap(conclusion);
   }
 
   verbalize() {
@@ -124,7 +124,7 @@ export class Conjunction extends Reasoning {
 export class Injunction extends Reasoning {
   constructor(key, description, value) {
     super(key, description, value);
-    this._booleanReduceMap = batchOr;
+    this._conclusionMap = batchOr;
   }
 
   toPremise() {
@@ -135,7 +135,7 @@ export class Injunction extends Reasoning {
     return new Premise(
       injunctionAsPremiseKey,
       this.description,
-      this.conclude()
+      this.conclude(),
     );
   }
 
@@ -148,7 +148,7 @@ export class Injunction extends Reasoning {
     const conclusion = applyReasoningArtifact(this.value, concludeMap);
     const IsBooleanCondition = isBoolean(conclusion);
 
-    return IsBooleanCondition ? conclusion : this._booleanReduceMap(conclusion);
+    return IsBooleanCondition ? conclusion : this._conclusionMap(conclusion);
   }
 
   verbalize() {

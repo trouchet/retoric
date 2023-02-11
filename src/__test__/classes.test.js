@@ -71,83 +71,63 @@ describe("classes", () => {
     expect(truePremise.toPremise()).toBe(truePremise);
     expect(falsePremise.toPremise()).toBe(falsePremise);
 
-    expect(
-      applyReasoningArtifact(premises, argueCallback)
-    ).toEqual(
-      expectedPremisesArguments
+    expect(applyReasoningArtifact(premises, argueCallback)).toEqual(
+      expectedPremisesArguments,
     );
   });
   it("must assert premises conclusion", () => {
-    expect(
-      applyReasoningArtifact(premises, concludeCallback)
-    ).toEqual(
-      expectedPremisesConclusions
+    expect(applyReasoningArtifact(premises, concludeCallback)).toEqual(
+      expectedPremisesConclusions,
     );
   });
   it("must assert premises verbalization", () => {
-    expect(
-      applyReasoningArtifact(premises, verbalizeCallback)
-    ).toEqual(
-      expectedPremisesVerbalizations
+    expect(applyReasoningArtifact(premises, verbalizeCallback)).toEqual(
+      expectedPremisesVerbalizations,
     );
   });
   it("must assert injunction arguments", () => {
-    expect(
-      applyReasoningArtifact(injunctions, argueCallback)
-    ).toEqual(
-      expectedInjConjArguments
+    expect(applyReasoningArtifact(injunctions, argueCallback)).toEqual(
+      expectedInjConjArguments,
     );
   });
   it("must assert injunction conclusion", () => {
-    expect(
-      applyReasoningArtifact(injunctions, concludeCallback)
-    ).toEqual(
-      expectedInjunctionsConclusions
+    expect(applyReasoningArtifact(injunctions, concludeCallback)).toEqual(
+      expectedInjunctionsConclusions,
     );
   });
   it("must assert injunction verbalization", () => {
-    expect(
-      applyReasoningArtifact(injunctions, verbalizeCallback)
-    ).toEqual(
-      expectedInjunctionsVerbalizations
+    expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
+      expectedInjunctionsVerbalizations,
     );
   });
   it("must assert injunction verbalization", () => {
-    expect(
-      applyReasoningArtifact(injunctions, verbalizeCallback)
-    ).toEqual(
-      expectedInjunctionsVerbalizations
+    expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
+      expectedInjunctionsVerbalizations,
     );
   });
   it("must assert single injunction conclusion", () => {
     expect(
-      applyReasoningArtifact(singlePremiseInjunction, concludeCallback)
+      applyReasoningArtifact(singlePremiseInjunction, concludeCallback),
     ).toEqual(expectedSinglePremiseInjunctionConclusion);
   });
   it("must assert conjunction arguments", () => {
-    expect(
-      applyReasoningArtifact(conjunctions, argueCallback)
-    ).toEqual(
-      expectedInjConjArguments
+    expect(applyReasoningArtifact(conjunctions, argueCallback)).toEqual(
+      expectedInjConjArguments,
     );
   });
   it("must assert conjunction conclusion", () => {
-    expect(
-      applyReasoningArtifact(conjunctions, concludeCallback)
-    ).toEqual(
-      expectedConjunctionsConclusions
+    expect(applyReasoningArtifact(conjunctions, concludeCallback)).toEqual(
+      expectedConjunctionsConclusions,
     );
   });
   it("must assert single conjunction conclusion", () => {
     expect(
-      applyReasoningArtifact(singlePremiseConjunction, concludeCallback)
+      applyReasoningArtifact(singlePremiseConjunction, concludeCallback),
     ).toEqual(expectedSinglePremiseConjunctionConclusion);
   });
   it("must assert conjunction verbalization", () => {
-    expect(
-      applyReasoningArtifact(conjunctions, verbalizeCallback)
-    ).toEqual(
-      expectedConjunctionsVerbalizations
+    expect(applyReasoningArtifact(conjunctions, verbalizeCallback)).toEqual(
+      expectedConjunctionsVerbalizations,
     );
   });
 });

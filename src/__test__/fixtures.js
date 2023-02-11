@@ -7,12 +7,12 @@ export const reason = new Reasoning("reason", "This is a reason", true);
 export const truePremise = new Premise(
   "true_premise",
   "This is a true premise",
-  true
+  true,
 );
 export const falsePremise = new Premise(
   "false_premise",
   "This is a false premise",
-  false
+  false,
 );
 
 export const expectedTruePremiseArgument = { true_premise: true };
@@ -71,12 +71,12 @@ for (const i in premiseArtifacts) {
   injunction = new Injunction(
     injprops.key,
     injprops.description,
-    injprops.value
+    injprops.value,
   );
   conjunction = new Conjunction(
     conjprops.key,
     conjprops.description,
-    conjprops.value
+    conjprops.value,
   );
 
   injunctions.push(injunction);
@@ -123,7 +123,7 @@ injprops = {
 singlePremiseInjunction = new Injunction(
   injprops.key,
   injprops.description,
-  injprops.value
+  injprops.value,
 );
 
 export const expectedSinglePremiseInjunctionConclusion = true;
@@ -138,7 +138,7 @@ conjprops = {
 singlePremiseConjunction = new Conjunction(
   conjprops.key,
   conjprops.description,
-  conjprops.value
+  conjprops.value,
 );
 
 export const expectedSinglePremiseConjunctionConclusion = false;

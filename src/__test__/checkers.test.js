@@ -1,4 +1,4 @@
-import { is, are } from "arqeo"
+import { is, are } from "arqeo";
 
 import {
   isConjunction,

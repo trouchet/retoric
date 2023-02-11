@@ -55,15 +55,15 @@ describe("utils", () => {
 
     expect(result).toThrow(expectation);
   });
-  it('assert batch operation', () => {
-    result = batchOperation([1,2,3], (a, b) => a+b, 0, isNumber);
+  it("assert batch operation", () => {
+    result = batchOperation([1, 2, 3], (a, b) => a + b, 0, isNumber);
     expectation = 6;
-    
+
     expect(result).toEqual(expectation);
 
-    result = () => batchOperation([1,2,'3'], (a, b) => a+b, 0, isNumber);
+    result = () => batchOperation([1, 2, "3"], (a, b) => a + b, 0, isNumber);
     expectation = TypeError;
-    
+
     expect(result).toThrow(expectation);
   });
   it('assert batch operators "and" and "or"', () => {
@@ -78,7 +78,7 @@ describe("utils", () => {
 
     result = and(false, false);
     expect(result).toEqual(false);
-    
+
     result = batchAnd([true, true]);
     expect(result).toEqual(true);
 
@@ -86,7 +86,7 @@ describe("utils", () => {
     expect(result).toEqual(false);
 
     result = () => batchAnd([true, 42]);
-    expect(result).toThrow(TypeError);  
+    expect(result).toThrow(TypeError);
 
     result = () => batchAnd(true);
     expect(result).toThrow(TypeError);
@@ -117,7 +117,7 @@ describe("utils", () => {
   });
 });
 
-const numberList = [1,2,3];
+const numberList = [1, 2, 3];
 
 describe("delimitify", () => {
   it("must return string delimited by plus +", () => {
@@ -132,7 +132,7 @@ describe("delimitify", () => {
   });
   it("must return string delimited by underscore _", () => {
     const result = hyphenify(numberList);
-    
+
     expect(result).toBe("1-2-3");
   });
   it("must return string delimited by pipe |", () => {
