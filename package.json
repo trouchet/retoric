@@ -1,0 +1,51 @@
+{
+  "name": "retoric",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A npm package to argue on artifacts",
+  "main": "dist/index-require.js",
+  "module": "src/index.js",
+  "modules.root": "src",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack --mode production",
+    "prepublish": "npm run build",
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:cache": "jest --clearCache",
+    "test:run": "npm run test:cache && jest",
+    "test:watch": "npm run test:cache && jest --watchAll --collect-coverage --coverage",
+    "release": "npm run prepublish && np --any-branch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trouchet/arqeo.git"
+  },
+  "keywords": [
+    "debugging",
+    "boolean"
+  ],
+  "author": "brunolnetto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trouchet/arqeo/issues"
+  },
+  "homepage": "https://github.com/trouchet/arqeo#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.2",
+    "jest-environment-jsdom": "^29.4.2",
+    "ts-jest": "^29.0.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "husky": "^8.0.3",
+    "jest": "^29.4.2",
+    "np": "^3.0.4",
+    "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
