@@ -1,6 +1,6 @@
 {
   "name": "retoric",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "A npm package to argue on artifacts",
   "main": "dist/index-require.js",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trouchet/arqeo.git"
+    "url": "git+https://github.com/trouchet/retoric.git"
   },
   "keywords": [
     "debugging",
@@ -30,9 +30,9 @@
   "author": "brunolnetto",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trouchet/arqeo/issues"
+    "url": "https://github.com/trouchet/retoric/issues"
   },
-  "homepage": "https://github.com/trouchet/arqeo#readme",
+  "homepage": "https://github.com/trouchet/retoric#readme",
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
