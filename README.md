@@ -20,7 +20,7 @@ The properties-concepts are:
 
 1. __key__: A string key-variable to ;
 2. __description__: A string description of Reasoning object;
-3. __value__: Either a boolean or a Reasoning artifact;
+3. __value__: Either a boolean or a {Premise|Injunction|Conjunction} artifact;
 
 The callback-concepts are:
 
