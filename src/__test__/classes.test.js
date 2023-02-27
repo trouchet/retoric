@@ -1,7 +1,7 @@
 import { InterfaceError } from "../errors";
 import { applyReasoningArtifact } from "../utils";
 import {
-  injunctions,
+  disjunctions,
   premises,
   truePremise,
   falsePremise,
@@ -81,25 +81,25 @@ describe("classes", () => {
       expectedPremisesVerbalizations,
     );
   });
-  it("must assert injunction arguments", () => {
-    expect(applyReasoningArtifact(injunctions, argueCallback)).toEqual(expectedInjConjArguments);
+  it("must assert disjunction arguments", () => {
+    expect(applyReasoningArtifact(disjunctions, argueCallback)).toEqual(expectedInjConjArguments);
   });
-  it("must assert injunction conclusion", () => {
-    expect(applyReasoningArtifact(injunctions, concludeCallback)).toEqual(
+  it("must assert disjunction conclusion", () => {
+    expect(applyReasoningArtifact(disjunctions, concludeCallback)).toEqual(
       expectedDisjunctionsConclusions,
     );
   });
-  it("must assert injunction verbalization", () => {
-    expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
+  it("must assert disjunction verbalization", () => {
+    expect(applyReasoningArtifact(disjunctions, verbalizeCallback)).toEqual(
       expectedDisjunctionsVerbalizations,
     );
   });
-  it("must assert injunction verbalization", () => {
-    expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
+  it("must assert disjunction verbalization", () => {
+    expect(applyReasoningArtifact(disjunctions, verbalizeCallback)).toEqual(
       expectedDisjunctionsVerbalizations,
     );
   });
-  it("must assert single injunction conclusion", () => {
+  it("must assert single disjunction conclusion", () => {
     expect(applyReasoningArtifact(singlePremiseDisjunction, concludeCallback)).toEqual(
       expectedSinglePremiseDisjunctionConclusion,
     );

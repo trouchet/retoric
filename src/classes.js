@@ -126,9 +126,9 @@ export class Disjunction extends Reasoning {
   toPremise() {
     const talkMap = (premise) => premise.verbalize();
     const arguments_ = orify(applyReasoningArtifact(this.value, talkMap));
-    const injunctionAsPremiseKey = `${this.key}=${arguments_}`;
+    const disjunctionAsPremiseKey = `${this.key}=${arguments_}`;
 
-    return new Premise(injunctionAsPremiseKey, this.description, this.conclude());
+    return new Premise(disjunctionAsPremiseKey, this.description, this.conclude());
   }
 
   toArgument() {

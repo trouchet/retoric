@@ -33,18 +33,18 @@ export const premiseArtifacts = [
 ];
 
 // Disjunctions and conjunctions
-export const injunctions = [];
+export const disjunctions = [];
 export const conjunctions = [];
 
-let injunction, conjunction;
+let disjunction, conjunction;
 let injprops, conjprops;
 
 const descriptionCallback = (name, premise) => `This is a [${premise}] ${name}`;
 
 for (const i in premiseArtifacts) {
   injprops = {
-    key: `injunction_${i}`,
-    description: descriptionCallback("injunction", premiseArtifacts[i]),
+    key: `disjunction_${i}`,
+    description: descriptionCallback("disjunction", premiseArtifacts[i]),
     value: premiseArtifacts[i],
   };
 
@@ -54,10 +54,10 @@ for (const i in premiseArtifacts) {
     value: premiseArtifacts[i],
   };
 
-  injunction = new Disjunction(injprops.key, injprops.description, injprops.value);
+  disjunction = new Disjunction(injprops.key, injprops.description, injprops.value);
   conjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
 
-  injunctions.push(injunction);
+  disjunctions.push(disjunction);
   conjunctions.push(conjunction);
 }
 
@@ -73,10 +73,10 @@ export const expectedInjConjArguments = [
 
 export const expectedDisjunctionsConclusions = [true, true, true, false];
 export const expectedDisjunctionsVerbalizations = [
-  "(injunction_0=(true_premise:true)|(true_premise:true):true)",
-  "(injunction_1=(true_premise:true)|(false_premise:false):true)",
-  "(injunction_2=(false_premise:false)|(true_premise:true):true)",
-  "(injunction_3=(false_premise:false)|(false_premise:false):false)",
+  "(disjunction_0=(true_premise:true)|(true_premise:true):true)",
+  "(disjunction_1=(true_premise:true)|(false_premise:false):true)",
+  "(disjunction_2=(false_premise:false)|(true_premise:true):true)",
+  "(disjunction_3=(false_premise:false)|(false_premise:false):false)",
 ];
 
 // Conjunctions
@@ -94,7 +94,7 @@ export let singlePremiseConjunction, singlePremiseDisjunction;
 
 injprops = {
   key: `singlePremiseDisjunction`,
-  description: descriptionCallback("injunction", truePremise),
+  description: descriptionCallback("disjunction", truePremise),
   value: truePremise,
 };
 
@@ -102,7 +102,7 @@ singlePremiseDisjunction = new Disjunction(injprops.key, injprops.description, i
 
 export const expectedSinglePremiseDisjunctionConclusion = true;
 
-// Single premise injunctions
+// Single premise disjunctions
 conjprops = {
   key: `singlePremiseConjunction`,
   description: descriptionCallback("conjunction", truePremise),
