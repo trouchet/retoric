@@ -4,8 +4,8 @@ import {
   isConjunction,
   isConjunctionArtifact,
   isDefined,
-  isInjunction,
-  isInjunctionArtifact,
+  isDisjunction,
+  isDisjunctionArtifact,
   isPremise,
   isPremiseArtifact,
   isReasoningArtifact,
@@ -20,20 +20,20 @@ describe("checkers", () => {
     expect(are(premiseArtifacts, isPremise)).toEqual(true);
   });
   it("must check true for injunctions", () => {
-    expect(are(injunctions, isInjunction)).toEqual(true);
+    expect(are(injunctions, isDisjunction)).toEqual(true);
   });
   it("must check true for conjunctions", () => {
     expect(are(conjunctions, isConjunction)).toEqual(true);
   });
-  it("must assert is{Premise|Conjunction|Injunction}Artifact", () => {
+  it("must assert is{Premise|Conjunction|Disjunction}Artifact", () => {
     expect(isReasoningArtifact(premises)).toEqual(true);
 
     expect(isPremiseArtifact(premises)).toEqual(true);
-    expect(isInjunctionArtifact(injunctions)).toEqual(true);
+    expect(isDisjunctionArtifact(injunctions)).toEqual(true);
     expect(isConjunctionArtifact(conjunctions)).toEqual(true);
 
     expect(isPremiseArtifact(conjunctions)).toEqual(false);
-    expect(isInjunctionArtifact(premises)).toEqual(false);
+    expect(isDisjunctionArtifact(premises)).toEqual(false);
     expect(isConjunctionArtifact(injunctions)).toEqual(false);
   });
   it("must assert defined variables", () => {

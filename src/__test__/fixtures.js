@@ -1,4 +1,4 @@
-import { Conjunction, Injunction, Premise, Reasoning } from "../classes";
+import { Conjunction, Disjunction, Premise, Reasoning } from "../classes";
 
 // Reasons
 export const reason = new Reasoning("reason", "This is a reason", true);
@@ -32,7 +32,7 @@ export const premiseArtifacts = [
   [falsePremise, falsePremise],
 ];
 
-// Injunctions and conjunctions
+// Disjunctions and conjunctions
 export const injunctions = [];
 export const conjunctions = [];
 
@@ -54,7 +54,7 @@ for (const i in premiseArtifacts) {
     value: premiseArtifacts[i],
   };
 
-  injunction = new Injunction(injprops.key, injprops.description, injprops.value);
+  injunction = new Disjunction(injprops.key, injprops.description, injprops.value);
   conjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
 
   injunctions.push(injunction);
@@ -69,10 +69,10 @@ export const expectedInjConjArguments = [
   { false_premise: false, false_premise: false },
 ];
 
-// Injunctions
+// Disjunctions
 
-export const expectedInjunctionsConclusions = [true, true, true, false];
-export const expectedInjunctionsVerbalizations = [
+export const expectedDisjunctionsConclusions = [true, true, true, false];
+export const expectedDisjunctionsVerbalizations = [
   "(injunction_0=(true_premise:true)|(true_premise:true):true)",
   "(injunction_1=(true_premise:true)|(false_premise:false):true)",
   "(injunction_2=(false_premise:false)|(true_premise:true):true)",
@@ -90,17 +90,17 @@ export const expectedConjunctionsVerbalizations = [
 ];
 
 // Single premise conjunctions
-export let singlePremiseConjunction, singlePremiseInjunction;
+export let singlePremiseConjunction, singlePremiseDisjunction;
 
 injprops = {
-  key: `singlePremiseInjunction`,
+  key: `singlePremiseDisjunction`,
   description: descriptionCallback("injunction", truePremise),
   value: truePremise,
 };
 
-singlePremiseInjunction = new Injunction(injprops.key, injprops.description, injprops.value);
+singlePremiseDisjunction = new Disjunction(injprops.key, injprops.description, injprops.value);
 
-export const expectedSinglePremiseInjunctionConclusion = true;
+export const expectedSinglePremiseDisjunctionConclusion = true;
 
 // Single premise injunctions
 conjprops = {

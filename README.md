@@ -14,7 +14,7 @@ The object-concepts are:
 1. __Reasoning__: an item or array that fulfills certain boolean-condition;
 2. __Premise__: An axiomatic reasoning child;
 3. __Conjunction__: A Reasoning child with decision or-operation;
-4. __Injunction__: A Reasoning child with decision and-operation;.
+4. __Disjunction__: A Reasoning child with decision and-operation;.
 
 The properties-concepts are:
 

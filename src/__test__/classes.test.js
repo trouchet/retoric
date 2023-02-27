@@ -10,7 +10,7 @@ import {
   expectedPremisesArguments,
   expectedPremisesConclusions,
   expectedPremisesVerbalizations,
-  expectedInjunctionsConclusions,
+  expectedDisjunctionsConclusions,
   expectedInjConjArguments,
   reason,
   expectedTruePremiseConclusion,
@@ -18,9 +18,9 @@ import {
   expectedConjunctionsConclusions,
   conjunctions,
   expectedConjunctionsVerbalizations,
-  expectedInjunctionsVerbalizations,
-  singlePremiseInjunction,
-  expectedSinglePremiseInjunctionConclusion,
+  expectedDisjunctionsVerbalizations,
+  singlePremiseDisjunction,
+  expectedSinglePremiseDisjunctionConclusion,
   expectedSinglePremiseConjunctionConclusion,
   singlePremiseConjunction,
 } from "./fixtures";
@@ -86,22 +86,22 @@ describe("classes", () => {
   });
   it("must assert injunction conclusion", () => {
     expect(applyReasoningArtifact(injunctions, concludeCallback)).toEqual(
-      expectedInjunctionsConclusions,
+      expectedDisjunctionsConclusions,
     );
   });
   it("must assert injunction verbalization", () => {
     expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
-      expectedInjunctionsVerbalizations,
+      expectedDisjunctionsVerbalizations,
     );
   });
   it("must assert injunction verbalization", () => {
     expect(applyReasoningArtifact(injunctions, verbalizeCallback)).toEqual(
-      expectedInjunctionsVerbalizations,
+      expectedDisjunctionsVerbalizations,
     );
   });
   it("must assert single injunction conclusion", () => {
-    expect(applyReasoningArtifact(singlePremiseInjunction, concludeCallback)).toEqual(
-      expectedSinglePremiseInjunctionConclusion,
+    expect(applyReasoningArtifact(singlePremiseDisjunction, concludeCallback)).toEqual(
+      expectedSinglePremiseDisjunctionConclusion,
     );
   });
   it("must assert conjunction arguments", () => {

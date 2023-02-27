@@ -117,7 +117,7 @@ export class Conjunction extends Reasoning {
   }
 }
 
-export class Injunction extends Reasoning {
+export class Disjunction extends Reasoning {
   constructor(key, description, value) {
     super(key, description, value);
     this._conclusionMap = batchOr;
