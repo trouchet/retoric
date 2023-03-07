@@ -1,6 +1,7 @@
-import { isBoolean } from "lodash";
+import { isArray, isBoolean } from "lodash";
+import { isPremiseArtifact } from "./checkers";
 
-import { InterfaceError } from "./errors";
+import { InterfaceError, ReasoningError } from "./errors";
 
 import {
   andify,
@@ -9,6 +10,7 @@ import {
   batchAnd,
   batchOr,
   getPremisesEntries,
+  enumerate,
 } from "./utils";
 
 export class Reasoning {
@@ -30,6 +32,11 @@ export class Reasoning {
     throw new InterfaceError();
   }
 
+  toPitch() {
+    return `${this.description}: ${this.value}`;
+  }
+
+  // Children MUST override this method
   toConclusion() {
     throw new InterfaceError();
   }
@@ -44,6 +51,10 @@ export class Reasoning {
 
   toString() {
     return this.verbalize();
+  }
+
+  pitch() {
+    return this.toPitch();
   }
 
   argue() {
@@ -88,8 +99,12 @@ export class Premise extends Reasoning {
 
 export class Conjunction extends Reasoning {
   constructor(key, description, value) {
-    super(key, description, value);
-    this._conclusionMap = batchAnd;
+    if(isPremiseArtifact(value) && isArray(value)) {
+      super(key, description, value);
+      this._conclusionMap = batchAnd;
+    } else {
+      throw new ReasoningError();
+    }
   }
 
   toPremise() {
@@ -104,12 +119,18 @@ export class Conjunction extends Reasoning {
     return Object.fromEntries(getPremisesEntries(this.value));
   }
 
-  toConclusion() {
-    const concludeMap = (premise) => premise.conclude();
-    const conclusion = applyReasoningArtifact(this.value, concludeMap);
-    const IsBooleanCondition = isBoolean(conclusion);
+  toPitch() {
+    const descriptionMap = (reason) => reason.toPitch();
+    const descriptions = applyReasoningArtifact(this.value, descriptionMap);
 
-    return IsBooleanCondition ? conclusion : this._conclusionMap(conclusion);
+    return enumerate(descriptions);
+  }
+
+  toConclusion() {
+    const concludeMap = (reason) => reason.conclude();
+    const conclusion = applyReasoningArtifact(this.value, concludeMap);
+
+    return this._conclusionMap(conclusion);
   }
 
   verbalize() {
@@ -119,8 +140,12 @@ export class Conjunction extends Reasoning {
 
 export class Disjunction extends Reasoning {
   constructor(key, description, value) {
-    super(key, description, value);
-    this._conclusionMap = batchOr;
+    if(isPremiseArtifact(value) && isArray(value)) {
+      super(key, description, value);
+      this._conclusionMap = batchOr;
+    } else {
+      throw new ReasoningError();
+    }
   }
 
   toPremise() {
@@ -138,9 +163,8 @@ export class Disjunction extends Reasoning {
   toConclusion() {
     const concludeMap = (premise) => premise.conclude();
     const conclusion = applyReasoningArtifact(this.value, concludeMap);
-    const IsBooleanCondition = isBoolean(conclusion);
 
-    return IsBooleanCondition ? conclusion : this._conclusionMap(conclusion);
+    return this._conclusionMap(conclusion);
   }
 
   verbalize() {

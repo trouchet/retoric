@@ -46,3 +46,17 @@ export const slugify = (strings) => stringifier(strings).join("_");
 export const hyphenify = (strings) => stringifier(strings).join("-");
 export const andify = (strings) => stringifier(strings).join("&");
 export const orify = (strings) => stringifier(strings).join("|");
+export const enumerate = (array) => {
+  let enumeratedStringArray = "";
+  let line;
+  
+  const enumHandler = (index, el) => `${index}. ${String(el)}`; 
+
+  array.slice(0, array.length-1).forEach((el, index) => {
+    line = `${enumHandler(index, el)}\n`;
+    enumeratedStringArray += line;
+  });
+
+  const id = array.length-1;
+  return enumeratedStringArray + enumHandler(id, array[id]);
+};

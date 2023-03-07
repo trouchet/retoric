@@ -1,4 +1,5 @@
-import { InterfaceError } from "../errors";
+import { Conjunction, Disjunction, Premise } from "../classes";
+import { InterfaceError, ReasoningError } from "../errors";
 import { applyReasoningArtifact } from "../utils";
 import {
   disjunctions,
@@ -19,12 +20,10 @@ import {
   conjunctions,
   expectedConjunctionsVerbalizations,
   expectedDisjunctionsVerbalizations,
-  singlePremiseDisjunction,
-  expectedSinglePremiseDisjunctionConclusion,
-  expectedSinglePremiseConjunctionConclusion,
-  singlePremiseConjunction,
+  expectedInjConjPitches,
 } from "./fixtures";
 
+const pitchCallback = (premise) => premise.pitch();
 const argueCallback = (premise) => premise.argue();
 const verbalizeCallback = (premise) => premise.verbalize();
 const concludeCallback = (premise) => premise.conclude();
@@ -99,11 +98,6 @@ describe("classes", () => {
       expectedDisjunctionsVerbalizations,
     );
   });
-  it("must assert single disjunction conclusion", () => {
-    expect(applyReasoningArtifact(singlePremiseDisjunction, concludeCallback)).toEqual(
-      expectedSinglePremiseDisjunctionConclusion,
-    );
-  });
   it("must assert conjunction arguments", () => {
     expect(applyReasoningArtifact(conjunctions, argueCallback)).toEqual(expectedInjConjArguments);
   });
@@ -112,14 +106,33 @@ describe("classes", () => {
       expectedConjunctionsConclusions,
     );
   });
-  it("must assert single conjunction conclusion", () => {
-    expect(applyReasoningArtifact(singlePremiseConjunction, concludeCallback)).toEqual(
-      expectedSinglePremiseConjunctionConclusion,
-    );
-  });
   it("must assert conjunction verbalization", () => {
     expect(applyReasoningArtifact(conjunctions, verbalizeCallback)).toEqual(
       expectedConjunctionsVerbalizations,
     );
   });
+  it("must assert conjunction verbalization", () => {
+    expect(applyReasoningArtifact(conjunctions, pitchCallback)).toEqual(
+      expectedInjConjPitches,
+    );
+  });
+  it("must assert Disjunction/Conjunction corrupted value", () => {
+    // Single premise conjunctions
+    const injprops = {
+      key: `singlePremiseJunction`,
+      description: `This is corrupted`,
+      value: new Premise("premise", "This is a premise", true),
+    };
+
+    const SinglePremiseDisjunctionThrowError = () => 
+      new Disjunction(injprops.key, injprops.description, injprops.value);
+
+    const SinglePremiseConjunctionThrowError = () => 
+      new Conjunction(injprops.key, injprops.description, injprops.value);
+
+    expect(SinglePremiseDisjunctionThrowError).toThrow(ReasoningError);
+    expect(SinglePremiseConjunctionThrowError).toThrow(ReasoningError);
+  });
 });
+
+

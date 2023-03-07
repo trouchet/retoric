@@ -20,6 +20,7 @@ export const expectedPremisesEntries = [
 ];
 
 export const expectedPremisesKeys = ["true_premise", "false_premise"];
+export const expectedPremisesPitches = ["This is a true premise: true", "This is a false premise: false"];
 export const expectedPremisesArguments = [{ true_premise: true }, { false_premise: false }];
 export const expectedPremisesConclusions = [true, false];
 export const expectedPremisesVerbalizations = ["(true_premise:true)", "(false_premise:false)"];
@@ -31,6 +32,15 @@ export const premiseArtifacts = [
   [falsePremise, truePremise],
   [falsePremise, falsePremise],
 ];
+
+export const expectedSingleInjConjKeys = ["disjunctionKey", "conjunctionKey"];
+export const expectedSingleInjConjPitches = [
+  'This is a single-premise disjunction: true', 
+  'This is a single-premise conjunction: false'
+];
+export const expectedSingleInjConjArguments = [{ disjunctionKey: true }, { conjunctionKey: false }];
+export const expectedSingleInjConjConclusions = [true, false];
+export const expectedSingleInjConjVerbalizations = ["(true_premise:true)", "(false_premise:false)"];
 
 // Disjunctions and conjunctions
 export const disjunctions = [];
@@ -61,6 +71,14 @@ for (const i in premiseArtifacts) {
   conjunctions.push(conjunction);
 }
 
+// Pitches
+export const expectedInjConjPitches = [
+  "0. This is a true premise: true\n1. This is a true premise: true",
+  "0. This is a true premise: true\n1. This is a false premise: false",
+  "0. This is a false premise: false\n1. This is a true premise: true",
+  "0. This is a false premise: false\n1. This is a false premise: false"
+];
+
 // Arguments
 export const expectedInjConjArguments = [
   { true_premise: true, true_premise: true },
@@ -88,27 +106,3 @@ export const expectedConjunctionsVerbalizations = [
   "(conjunction_2=(false_premise:false)&(true_premise:true):false)",
   "(conjunction_3=(false_premise:false)&(false_premise:false):false)",
 ];
-
-// Single premise conjunctions
-export let singlePremiseConjunction, singlePremiseDisjunction;
-
-injprops = {
-  key: `singlePremiseDisjunction`,
-  description: descriptionCallback("disjunction", truePremise),
-  value: truePremise,
-};
-
-singlePremiseDisjunction = new Disjunction(injprops.key, injprops.description, injprops.value);
-
-export const expectedSinglePremiseDisjunctionConclusion = true;
-
-// Single premise disjunctions
-conjprops = {
-  key: `singlePremiseConjunction`,
-  description: descriptionCallback("conjunction", truePremise),
-  value: falsePremise,
-};
-
-singlePremiseConjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
-
-export const expectedSinglePremiseConjunctionConclusion = false;

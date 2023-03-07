@@ -16,6 +16,7 @@ import {
   stringifier,
   batchOperation,
   hyphenify,
+  enumerate,
 } from "../utils";
 import {
   expectedPremisesEntries,
@@ -161,5 +162,11 @@ describe("delimitify", () => {
     result = stringifier(numberList);
 
     expect(result).toEqual(["1", "2", "3"]);
+  });
+  it("should return equal stringified array elements", () => {
+    expectation = '0. 1\n1. 2\n2. 3'
+    result = enumerate(['1', '2', '3']);
+    
+    expect(result).toMatch(expectation);
   });
 });
