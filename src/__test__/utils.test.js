@@ -67,6 +67,11 @@ describe("utils", () => {
     expectation = OperationError;
 
     expect(result).toThrow(expectation);
+
+    result = () => batchOperation([1], (a, b) => a + b, 0, isNumber);
+    expectation = OperationError;
+
+    expect(result).toThrow(expectation);
   });
   it('assert batch operators "and" and "or"', () => {
     result = and(true, true);

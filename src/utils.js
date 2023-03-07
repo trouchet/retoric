@@ -13,10 +13,14 @@ export const or = (acc, el) => acc || el;
 
 export const batchOperation = (list, operation, defaultValue, isCallback) => {
   if (isArray(list)) {
-    if (list.every(isCallback)) {
-      return list.reduce(operation, defaultValue);
+    if(list.length >= 2) {
+      if (list.every(isCallback)) {
+        return list.reduce(operation, defaultValue);
+      } else {
+        throw new OperationError();
+      }
     } else {
-      throw new OperationError();
+      throw new OperationError();  
     }
   } else {
     throw new OperationError();

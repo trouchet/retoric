@@ -12,6 +12,13 @@ export class InterfaceError extends NotImplementedError {
   }
 }
 
+export class OperationError extends TypeError {
+  constructor() {
+    super("Batch operations expect a list of true-isCallback values.");
+    this.name = "OperationError";
+  }
+}
+
 export class ReasoningError extends TypeError {
   constructor() {
     const constitutionMessage = "Conjunction and injunction values must be an array of Premise.";
