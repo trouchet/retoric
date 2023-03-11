@@ -7,7 +7,7 @@
 
 ## Concepts
 
-This npm module aims to give a development tools to argue on artifact condition. The behavior emulates, for example, Typescript type-check. 
+This npm module aims to give a development tools to argue on Reasoning objects. 
 
 The object-concepts are:
 
