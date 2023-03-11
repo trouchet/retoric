@@ -1,7 +1,12 @@
-import { isArray, isBoolean } from "lodash";
-import { isPremiseArtifact } from "./checkers";
+import { isBoolean } from "lodash";
+import { 
+  isConjunctionProperty, 
+  isDisjunctionProperty, 
+  isPremiseProperty 
+} from "./checkers";
 
-import { InterfaceError, ReasoningError } from "./errors";
+import { InterfaceError, ReasoningPropertyError } from "./errors";
+import { raise } from "./sys";
 
 import {
   andify,
@@ -9,36 +14,56 @@ import {
   applyReasoningArtifact,
   batchAnd,
   batchOr,
-  getPremisesEntries,
   enumerate,
+  applyConclusion,
 } from "./utils";
+
+const DELIMITER=':';
+const LEFT_BRACKET='(';
+const RIGHT_BRACKET=')';
+
+const ambiguationMessage = 'We cannot disambiguate {Premise,Disjunction,Conjunction} on Reasoning.';
+const ambiguationError = () => new InterfaceError(ambiguationMessage);
+
+const reasoningPropertyError = (candidate) => new ReasoningPropertyError(candidate, -1);
+const premisePropertyError = (candidate) => new ReasoningPropertyError(candidate, 0);
+const conjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 1);
+const disjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 2);
 
 export class Reasoning {
   _conclusionMap = undefined;
+  _delimiterMap = undefined;
 
   constructor(key, description, value) {
-    this.key = key;
-    this.description = description;
-    this.value = value;
+    const candidate = { 'key': key, 'description': description, 'value': value};
+
+    if(isPremiseProperty(candidate) || isConjunctionProperty(candidate)) {
+      this.key = key;
+      this.description = description;
+      this.value = value;
+    } else {
+      raise(reasoningPropertyError(candidate));
+    }
   }
 
   // Children MUST override this method
   toPremise() {
-    throw new InterfaceError();
+    throw ambiguationError();
   }
 
   // Children MUST override this method
   toArgument() {
-    throw new InterfaceError();
-  }
-
-  toPitch() {
-    return `${this.description}: ${this.value}`;
+    throw ambiguationError();
   }
 
   // Children MUST override this method
   toConclusion() {
-    throw new InterfaceError();
+    throw ambiguationError();
+  }
+
+  // Children MUST override this method
+  toSummary() {
+    return `${LEFT_BRACKET}${this.key}${DELIMITER}${this.value}${RIGHT_BRACKET}`;
   }
 
   // Children MUST override this method
@@ -49,11 +74,11 @@ export class Reasoning {
     };
   }
 
-  toString() {
-    return this.verbalize();
+  toPitch() {
+    return this.toArgument();
   }
 
-  pitch() {
+  toString() {
     return this.toPitch();
   }
 
@@ -65,23 +90,33 @@ export class Reasoning {
     return this.toConclusion();
   }
 
+  summarize() {
+    return this.toSummary();
+  }
+
   think() {
     return this.toThought();
   }
 
-  // Children MUST override this method
+  pitch() {
+    return this.toPitch();
+  }
+
   verbalize() {
-    throw new InterfaceError();
+    return this.toString();
   }
 }
 
 export class Premise extends Reasoning {
   constructor(key, description, value) {
-    super(key, description, value);
+    const candidate = { 'key': key, 'description': description, 'value': value};
+    
+    isPremiseProperty(candidate) ? super(key, description, value) : 
+    raise(premisePropertyError(candidate));    
   }
 
   toArgument() {
-    return Object.fromEntries([[this.key, this.value]]);
+    return `${this.description}: ${this.value}`;
   }
 
   toConclusion() {
@@ -91,83 +126,75 @@ export class Premise extends Reasoning {
   toPremise() {
     return this;
   }
+}
 
+const concludeCallback = (premise) => premise.conclude();
+const argueCallback = (premise) => premise.argue();
+const summarizeCallback = (premise) => premise.summarize();
+const pitchCallback = (premise) => premise.toPitch();
+
+let junctionMixin = {
+  premiseValues() {
+    return applyReasoningArtifact(this.value, concludeCallback);
+  }, 
+  arguments() {
+    return applyReasoningArtifact(this.value, argueCallback);
+  }, 
+  bullets() {
+    return enumerate(this.arguments());
+  }, 
+  tokens() {
+    return applyReasoningArtifact(this.value, summarizeCallback);
+  }, 
+  summary() {
+    return this._delimiterMap(this.tokens());
+  }, 
+  toPitch() {
+    const descriptions = applyReasoningArtifact(this.value, pitchCallback);
+
+    return enumerate(descriptions);
+  }, 
+  toPremise() {
+    return new Premise(this.key, this.description+' '+this.summary(), this.conclude());
+  }, 
+  toArgument() {
+    return this.arguments();
+  }, 
+  toConclusion() {
+    return this._conclusionMap(this.premiseValues());
+  }, 
   verbalize() {
-    return `(${this.key}:${this.value})`;
+    return this.toPremise().toString();
   }
 }
 
 export class Conjunction extends Reasoning {
   constructor(key, description, value) {
-    if(isPremiseArtifact(value) && isArray(value)) {
+    const candidate = { 'key': key, 'description': description, 'value': value};    
+    
+    if(isConjunctionProperty(candidate)) {
       super(key, description, value);
       this._conclusionMap = batchAnd;
+      this._delimiterMap = andify;
     } else {
-      throw new ReasoningError();
+      raise(conjunctionPropertyError(candidate));
     }
-  }
-
-  toPremise() {
-    const talkMap = (premise) => premise.verbalize();
-    const arguments_ = andify(applyReasoningArtifact(this.value, talkMap));
-    const conjunctionAsPremiseKey = `${this.key}=${arguments_}`;
-
-    return new Premise(conjunctionAsPremiseKey, this.description, this.conclude());
-  }
-
-  toArgument() {
-    return Object.fromEntries(getPremisesEntries(this.value));
-  }
-
-  toPitch() {
-    const descriptionMap = (reason) => reason.toPitch();
-    const descriptions = applyReasoningArtifact(this.value, descriptionMap);
-
-    return enumerate(descriptions);
-  }
-
-  toConclusion() {
-    const concludeMap = (reason) => reason.conclude();
-    const conclusion = applyReasoningArtifact(this.value, concludeMap);
-
-    return this._conclusionMap(conclusion);
-  }
-
-  verbalize() {
-    return this.toPremise().toString();
   }
 }
 
 export class Disjunction extends Reasoning {
   constructor(key, description, value) {
-    if(isPremiseArtifact(value) && isArray(value)) {
+    const candidate = { 'key': key, 'description': description, 'value': value};    
+    
+    if(isDisjunctionProperty(candidate)) {
       super(key, description, value);
       this._conclusionMap = batchOr;
+      this._delimiterMap = orify;
     } else {
-      throw new ReasoningError();
+      raise(disjunctionPropertyError(candidate));
     }
   }
-
-  toPremise() {
-    const talkMap = (premise) => premise.verbalize();
-    const arguments_ = orify(applyReasoningArtifact(this.value, talkMap));
-    const disjunctionAsPremiseKey = `${this.key}=${arguments_}`;
-
-    return new Premise(disjunctionAsPremiseKey, this.description, this.conclude());
-  }
-
-  toArgument() {
-    return Object.fromEntries(getPremisesEntries(this.value));
-  }
-
-  toConclusion() {
-    const concludeMap = (premise) => premise.conclude();
-    const conclusion = applyReasoningArtifact(this.value, concludeMap);
-
-    return this._conclusionMap(conclusion);
-  }
-
-  verbalize() {
-    return this.toPremise().toString();
-  }
 }
+
+Object.assign(Conjunction.prototype, junctionMixin);
+Object.assign(Disjunction.prototype, junctionMixin);

@@ -1,18 +1,18 @@
 import { Conjunction, Disjunction, Premise } from "../classes";
 import { InterfaceError, ReasoningError } from "../errors";
-import { applyReasoningArtifact } from "../utils";
-import {
+import { 
+  applyConclusion, 
+  applyPitch, 
+  applyVerbalization
+} from "../utils";
+import { 
   disjunctions,
   premises,
   truePremise,
   falsePremise,
-  expectedTruePremiseArgument,
-  expectedFalsePremiseArgument,
-  expectedPremisesArguments,
   expectedPremisesConclusions,
   expectedPremisesVerbalizations,
   expectedDisjunctionsConclusions,
-  expectedInjConjArguments,
   reason,
   expectedTruePremiseConclusion,
   expectedFalsePremiseConclusion,
@@ -23,22 +23,20 @@ import {
   expectedInjConjPitches,
 } from "./fixtures";
 
-const pitchCallback = (premise) => premise.pitch();
-const argueCallback = (premise) => premise.argue();
-const verbalizeCallback = (premise) => premise.verbalize();
-const concludeCallback = (premise) => premise.conclude();
+// Apply callbacks
+
 
 describe("classes", () => {
-  it("must throw on (toPremise, toArgument, toConclusion, toThought) on Reasoning object", () => {
+  it("must throw on (toPremise, toConclusion, toThought) on Reasoning object", () => {
     let throwErrorOnToPremise,
-      throwErrorOnToArgument,
       throwErrorOnToConclusion,
+      throwErrorOnToArgument,
       throwErrorOnToThought,
       throwErrorOnVerbalize;
 
     throwErrorOnToPremise = () => reason.toPremise();
     expect(throwErrorOnToPremise).toThrow(InterfaceError);
-
+    
     throwErrorOnToArgument = () => reason.toArgument();
     expect(throwErrorOnToArgument).toThrow(InterfaceError);
 
@@ -61,66 +59,38 @@ describe("classes", () => {
     expect(throwErrorOnVerbalize).toThrow(InterfaceError);
   });
   it("must assert premises arguments", () => {
-    expect(truePremise.argue()).toEqual(expectedTruePremiseArgument);
-    expect(falsePremise.argue()).toEqual(expectedFalsePremiseArgument);
-
     expect(truePremise.conclude()).toEqual(expectedTruePremiseConclusion);
     expect(falsePremise.conclude()).toEqual(expectedFalsePremiseConclusion);
 
     expect(truePremise.toPremise()).toBe(truePremise);
     expect(falsePremise.toPremise()).toBe(falsePremise);
-
-    expect(applyReasoningArtifact(premises, argueCallback)).toEqual(expectedPremisesArguments);
   });
   it("must assert premises conclusion", () => {
-    expect(applyReasoningArtifact(premises, concludeCallback)).toEqual(expectedPremisesConclusions);
+    expect(applyConclusion(premises)).toEqual(expectedPremisesConclusions);
   });
   it("must assert premises verbalization", () => {
-    expect(applyReasoningArtifact(premises, verbalizeCallback)).toEqual(
-      expectedPremisesVerbalizations,
-    );
-  });
-  it("must assert disjunction arguments", () => {
-    expect(applyReasoningArtifact(disjunctions, argueCallback)).toEqual(expectedInjConjArguments);
+    expect(applyVerbalization(premises)).toEqual(expectedPremisesVerbalizations);
   });
   it("must assert disjunction conclusion", () => {
-    expect(applyReasoningArtifact(disjunctions, concludeCallback)).toEqual(
-      expectedDisjunctionsConclusions,
-    );
+    expect(applyConclusion(disjunctions)).toEqual(expectedDisjunctionsConclusions);
   });
   it("must assert disjunction verbalization", () => {
-    expect(applyReasoningArtifact(disjunctions, verbalizeCallback)).toEqual(
-      expectedDisjunctionsVerbalizations,
-    );
-  });
-  it("must assert disjunction verbalization", () => {
-    expect(applyReasoningArtifact(disjunctions, verbalizeCallback)).toEqual(
-      expectedDisjunctionsVerbalizations,
-    );
-  });
-  it("must assert conjunction arguments", () => {
-    expect(applyReasoningArtifact(conjunctions, argueCallback)).toEqual(expectedInjConjArguments);
+    expect(applyVerbalization(disjunctions)).toEqual(expectedDisjunctionsVerbalizations);
   });
   it("must assert conjunction conclusion", () => {
-    expect(applyReasoningArtifact(conjunctions, concludeCallback)).toEqual(
-      expectedConjunctionsConclusions,
-    );
+    expect(applyConclusion(conjunctions)).toEqual(expectedConjunctionsConclusions);
   });
   it("must assert conjunction verbalization", () => {
-    expect(applyReasoningArtifact(conjunctions, verbalizeCallback)).toEqual(
-      expectedConjunctionsVerbalizations,
-    );
+    expect(applyVerbalization(conjunctions)).toEqual(expectedConjunctionsVerbalizations);
   });
   it("must assert conjunction verbalization", () => {
-    expect(applyReasoningArtifact(conjunctions, pitchCallback)).toEqual(
-      expectedInjConjPitches,
-    );
+    expect(applyPitch(conjunctions)).toEqual(expectedInjConjPitches);
   });
   it("must assert Disjunction/Conjunction corrupted value", () => {
     // Single premise conjunctions
     const injprops = {
       key: `singlePremiseJunction`,
-      description: `This is corrupted`,
+      description: `This is a corrupted single-premise junction`,
       value: new Premise("premise", "This is a premise", true),
     };
 

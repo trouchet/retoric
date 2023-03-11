@@ -7,8 +7,6 @@ export const reason = new Reasoning("reason", "This is a reason", true);
 export const truePremise = new Premise("true_premise", "This is a true premise", true);
 export const falsePremise = new Premise("false_premise", "This is a false premise", false);
 
-export const expectedTruePremiseArgument = { true_premise: true };
-export const expectedFalsePremiseArgument = { false_premise: false };
 export const expectedTruePremiseConclusion = true;
 export const expectedFalsePremiseConclusion = false;
 
@@ -21,15 +19,17 @@ export const expectedPremisesEntries = [
 
 export const expectedPremisesKeys = ["true_premise", "false_premise"];
 export const expectedPremisesPitches = ["This is a true premise: true", "This is a false premise: false"];
-export const expectedPremisesArguments = [{ true_premise: true }, { false_premise: false }];
 export const expectedPremisesConclusions = [true, false];
-export const expectedPremisesVerbalizations = ["(true_premise:true)", "(false_premise:false)"];
+export const expectedPremisesVerbalizations = [ 
+  "This is a true premise: true", 
+  "This is a false premise: false"
+];
 
 // Premise artifacts
 export const premiseArtifacts = [
-  [truePremise, truePremise],
-  [truePremise, falsePremise],
-  [falsePremise, truePremise],
+  [truePremise, truePremise], 
+  [truePremise, falsePremise], 
+  [falsePremise, truePremise], 
   [falsePremise, falsePremise],
 ];
 
@@ -38,7 +38,7 @@ export const expectedSingleInjConjPitches = [
   'This is a single-premise disjunction: true', 
   'This is a single-premise conjunction: false'
 ];
-export const expectedSingleInjConjArguments = [{ disjunctionKey: true }, { conjunctionKey: false }];
+
 export const expectedSingleInjConjConclusions = [true, false];
 export const expectedSingleInjConjVerbalizations = ["(true_premise:true)", "(false_premise:false)"];
 
@@ -49,18 +49,18 @@ export const conjunctions = [];
 let disjunction, conjunction;
 let injprops, conjprops;
 
-const descriptionCallback = (name, premise) => `This is a [${premise}] ${name}`;
+const descriptionCallback = (name) => `This is a ${name}`;
 
 for (const i in premiseArtifacts) {
   injprops = {
     key: `disjunction_${i}`,
-    description: descriptionCallback("disjunction", premiseArtifacts[i]),
+    description: descriptionCallback("disjunction"),
     value: premiseArtifacts[i],
   };
 
   conjprops = {
     key: `conjunction_${i}`,
-    description: descriptionCallback("conjunction", premiseArtifacts[i]),
+    description: descriptionCallback("conjunction"),
     value: premiseArtifacts[i],
   };
 
@@ -79,30 +79,28 @@ export const expectedInjConjPitches = [
   "0. This is a false premise: false\n1. This is a false premise: false"
 ];
 
-// Arguments
-export const expectedInjConjArguments = [
-  { true_premise: true, true_premise: true },
-  { true_premise: true, false_premise: false },
-  { false_premise: false, true_premise: true },
-  { false_premise: false, false_premise: false },
-];
-
 // Disjunctions
 
-export const expectedDisjunctionsConclusions = [true, true, true, false];
+// Verbalizations
 export const expectedDisjunctionsVerbalizations = [
-  "(disjunction_0=(true_premise:true)|(true_premise:true):true)",
-  "(disjunction_1=(true_premise:true)|(false_premise:false):true)",
-  "(disjunction_2=(false_premise:false)|(true_premise:true):true)",
-  "(disjunction_3=(false_premise:false)|(false_premise:false):false)",
-];
+  "This is a disjunction (true_premise:true)|(true_premise:true): true", 
+  "This is a disjunction (true_premise:true)|(false_premise:false): true", 
+  "This is a disjunction (false_premise:false)|(true_premise:true): true", 
+  "This is a disjunction (false_premise:false)|(false_premise:false): false"
+]
+
+// Conclusions
+export const expectedDisjunctionsConclusions = [true, true, true, false];
 
 // Conjunctions
 
-export const expectedConjunctionsConclusions = [true, false, false, false];
+// Verbalizations
 export const expectedConjunctionsVerbalizations = [
-  "(conjunction_0=(true_premise:true)&(true_premise:true):true)",
-  "(conjunction_1=(true_premise:true)&(false_premise:false):false)",
-  "(conjunction_2=(false_premise:false)&(true_premise:true):false)",
-  "(conjunction_3=(false_premise:false)&(false_premise:false):false)",
-];
+  "This is a conjunction (true_premise:true)&(true_premise:true): true", 
+  "This is a conjunction (true_premise:true)&(false_premise:false): false", 
+  "This is a conjunction (false_premise:false)&(true_premise:true): false", 
+  "This is a conjunction (false_premise:false)&(false_premise:false): false"
+]
+
+// Conclusions
+export const expectedConjunctionsConclusions = [true, false, false, false];

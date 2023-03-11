@@ -64,3 +64,17 @@ export const enumerate = (array) => {
   const id = array.length-1;
   return enumeratedStringArray + enumHandler(id, array[id]);
 };
+
+/*----------------------------------------------------------------------------------------------*\
+ | Apply artifact                                                                               |
+\*----------------------------------------------------------------------------------------------*/
+
+// Callbacks
+const pitchCallback = (premise) => premise.pitch();
+const verbalizeCallback = (premise) => premise.verbalize();
+const concludeCallback = (premise) => premise.conclude();
+
+// Apply callbacks
+export const applyPitch = (premises) => applyReasoningArtifact(premises, pitchCallback);
+export const applyVerbalization = (premises) => applyReasoningArtifact(premises, verbalizeCallback);
+export const applyConclusion = (premises) => applyReasoningArtifact(premises, concludeCallback);

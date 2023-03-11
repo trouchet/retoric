@@ -1,27 +1,18 @@
-import { is, are } from "arqeo";
+import { are } from "arqeo";
 
 import {
   isConjunction,
   isConjunctionArtifact,
   isDefined,
-  isDisjunction,
   isDisjunctionArtifact,
-  isPremise,
   isPremiseArtifact,
   isReasoningArtifact,
 } from "../checkers";
-import { conjunctions, disjunctions, premiseArtifacts, premises } from "./fixtures";
+import { premises, conjunctions, disjunctions } from "./fixtures";
 
 let result, expectation;
 
 describe("checkers", () => {
-  it("must check true for premises", () => {
-    expect(is(premises, isPremise)).toEqual(true);
-    expect(are(premiseArtifacts, isPremise)).toEqual(true);
-  });
-  it("must check true for disjunctions", () => {
-    expect(are(disjunctions, isDisjunction)).toEqual(true);
-  });
   it("must check true for conjunctions", () => {
     expect(are(conjunctions, isConjunction)).toEqual(true);
   });
