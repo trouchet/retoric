@@ -20,7 +20,7 @@ const config = {
       "path": require.resolve("path-browserify"),
       "util": require.resolve("util/"),
       "stream": require.resolve("stream-browserify"),
-      "fs": require.resolve("fs")
+      "fs": false
     }
   },
   externals: {
@@ -30,6 +30,9 @@ const config = {
       amd: "lodash",
       root: "_",
     },
+  },
+  optimization: {
+    minimize: false,
   },
 };
 
