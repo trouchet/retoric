@@ -12,6 +12,13 @@ const config = {
   },
   resolve: {
     extensions: [".js"],
+    fallback: { 
+      "os": require.resolve("os-browserify/browser") ,
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "zlib": require.resolve("browserify-zlib"),
+      "path": require.resolve("path-browserify")
+    }
   },
   externals: {
     lodash: {
