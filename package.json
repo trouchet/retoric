@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "type": "module",
   "description": "A npm package to argue on artifacts",
-  "main": "dist/index-require.js",
+  "main": "dist/index-require.cjs",
   "module": "src/index.js",
   "modules.root": "src",
   "scripts": {
