@@ -11,17 +11,17 @@ describe("warn/raise/report/joke", () => {
   });
 
   it("should call log on report", () => {
-    report('News!');
+    report("News!");
     expect(log).toHaveBeenCalled();
   });
 
   it("should call debug on report", () => {
-    debug(':-)');
+    debug(":-)");
     expect(log).toHaveBeenCalled();
   });
 
   it("should call log on joke", () => {
-    joke('News!');
+    joke("News!");
     expect(log).toHaveBeenCalled();
   });
 

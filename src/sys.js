@@ -8,7 +8,6 @@ import _ from "lodash";
  */
 export const debug = (message) => log("debug", message);
 
-
 /**
  * @abstract throw an error with prescribed unable task message
  *

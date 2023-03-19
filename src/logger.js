@@ -18,7 +18,7 @@ const { label } = format;
 */
 
 const timestampConfig = { format: "DD/MM/YYYY HH:mm:ss.sss A" };
-const transports_ = [ new transports.Console({ format: format.errors() }) ];
+const transports_ = [new transports.Console({ format: format.errors() })];
 
 /**
  * @abstract Log to defined transports
@@ -26,15 +26,16 @@ const transports_ = [ new transports.Console({ format: format.errors() }) ];
  * @param {String} label_msg
  */
 const logging = (labelMessage = "default") => {
-  const formatHandler = (info) => `[${info.timestamp} - ${labelMessage}] ${info.level}: ${info.message}`;
+  const formatHandler = (info) =>
+    `[${info.timestamp} - ${labelMessage}] ${info.level}: ${info.message}`;
 
   const formatConfig = format.combine(
     label({ label: labelMessage }),
     format.timestamp(timestampConfig),
-    format.colorize(), 
-    format.printf(formatHandler)
-  )
-  
+    format.colorize(),
+    format.printf(formatHandler),
+  );
+
   const loggerConfig = {
     format: formatConfig,
     transports: transports_,

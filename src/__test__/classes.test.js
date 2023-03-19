@@ -1,12 +1,7 @@
 import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes";
 import { InterfaceError, ReasoningError, ReasoningPropertyError } from "../errors";
-import { 
-  applyArguing,
-  applyConclusion, 
-  applyPitch, 
-  applyVerbalization
-} from "../utils";
-import { 
+import { applyArguing, applyConclusion, applyPitch, applyVerbalization } from "../utils";
+import {
   disjunctions,
   premises,
   truePremise,
@@ -27,7 +22,7 @@ import {
 } from "./fixtures";
 
 // Apply callbacks
-jest.mock('../logger.js')
+jest.mock("../logger.js");
 
 describe("classes", () => {
   it("must throw on (toPremise, toConclusion, toThought) on Reasoning object", () => {
@@ -46,13 +41,13 @@ describe("classes", () => {
 
     throwErrorOnReasoningConstructor = () => new Disjunction_(42, 42, 42);
     expect(throwErrorOnReasoningConstructor).toThrow(ReasoningPropertyError);
-    
+
     throwErrorOnReasoningConstructor = () => new Conjunction_(42, 42, 42);
     expect(throwErrorOnReasoningConstructor).toThrow(ReasoningPropertyError);
 
     throwErrorOnToPremise = () => reason.toPremise();
     expect(throwErrorOnToPremise).toThrow(InterfaceError);
-    
+
     throwErrorOnToArgument = () => reason.toArgument();
     expect(throwErrorOnToArgument).toThrow(InterfaceError);
 
@@ -117,15 +112,13 @@ describe("classes", () => {
       value: new Premise_("premise", "This is a premise", true),
     };
 
-    const SinglePremiseDisjunctionThrowError = () => 
+    const SinglePremiseDisjunctionThrowError = () =>
       new Disjunction_(injprops.key, injprops.description, injprops.value);
 
-    const SinglePremiseConjunctionThrowError = () => 
+    const SinglePremiseConjunctionThrowError = () =>
       new Conjunction_(injprops.key, injprops.description, injprops.value);
 
     expect(SinglePremiseDisjunctionThrowError).toThrow(ReasoningError);
     expect(SinglePremiseConjunctionThrowError).toThrow(ReasoningError);
   });
 });
-
-

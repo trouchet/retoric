@@ -1,9 +1,14 @@
-import { InterfaceError, NotImplementedError, ReasoningPropertyError, UnexpectedReasoningError } from "../errors";
+import {
+  InterfaceError,
+  NotImplementedError,
+  ReasoningPropertyError,
+  UnexpectedReasoningError,
+} from "../errors";
 import { toReasoningCandidate } from "../utils";
 import { truePremise } from "./fixtures";
 
 // Apply callbacks
-jest.mock('../sys.js')
+jest.mock("../sys.js");
 
 describe("errors", () => {
   it("must match defaultArrayTruthMessage on truthError message without truthMessage", () => {
@@ -13,7 +18,7 @@ describe("errors", () => {
 
     expect(error.message).toMatch(message);
     expect(error.name).toMatch("NotImplementedError");
-    
+
     message = "";
     error = new NotImplementedError();
 
@@ -29,7 +34,8 @@ describe("errors", () => {
   });
   it("must check UnexpectedReasoningError", () => {
     let message, error;
-    message = "We expected a Reasoning candidate i.e. {Reasoning, Premise, Conjunction, Disjunction}.";
+    message =
+      "We expected a Reasoning candidate i.e. {Reasoning, Premise, Conjunction, Disjunction}.";
     error = new UnexpectedReasoningError();
 
     expect(error.message).toMatch(message);
@@ -54,39 +60,41 @@ describe("errors", () => {
 
     message = messageCallback("Conjunction");
     error = errorCallback({}, 1);
-    
+
     expect(error.message).toMatch(message);
     expect(error.name).toMatch(name);
 
     message = messageCallback("Disjunction");
     error = errorCallback({}, 2);
-    
+
     expect(error.message).toMatch(message);
     expect(error.name).toMatch(name);
 
     message = messageCallback("Disjunction");
     error = errorCallback(
-      toReasoningCandidate(
-        'onePremiseDisjunction', 'This is a single-premise disjunction', [truePremise] 
-      ), 2
+      toReasoningCandidate("onePremiseDisjunction", "This is a single-premise disjunction", [
+        truePremise,
+      ]),
+      2,
     );
-    
+
     expect(error.message).toMatch(message);
     expect(error.name).toMatch(name);
 
     message = messageCallback("Conjunction");
     error = errorCallback(
-      toReasoningCandidate(
-        'onePremiseConjunction', 'This is a single-premise conjunction', [truePremise] 
-      ), 1
+      toReasoningCandidate("onePremiseConjunction", "This is a single-premise conjunction", [
+        truePremise,
+      ]),
+      1,
     );
-    
+
     expect(error.message).toMatch(message);
     expect(error.name).toMatch(name);
 
     message = messageCallback("whatever");
     errorThrowOnConstruct = () => errorCallback({}, 3);
-    
+
     expect(errorThrowOnConstruct).toThrow(TypeError);
   });
 });

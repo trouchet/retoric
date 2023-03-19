@@ -5,11 +5,11 @@ import { apply } from "arqeo";
 import { OperationError } from "./errors";
 
 export const toReasoningCandidate = (
-  key=undefined, 
-  description=undefined, 
-  value=undefined
+  key = undefined,
+  description = undefined,
+  value = undefined,
 ) => {
-  return { 'key': key, 'description': description, 'value': value};
+  return { key: key, description: description, value: value };
 };
 
 /*----------------------------------------------------------------------------------------------*\
@@ -21,14 +21,14 @@ export const or = (acc, el) => acc || el;
 
 export const batchOperation = (list, operation, defaultValue, isCallback) => {
   if (isArray(list)) {
-    if(list.length >= 2) {
+    if (list.length >= 2) {
       if (list.every(isCallback)) {
         return list.reduce(operation, defaultValue);
       } else {
         throw new OperationError();
       }
     } else {
-      throw new OperationError();  
+      throw new OperationError();
     }
   } else {
     throw new OperationError();
@@ -61,15 +61,15 @@ export const orify = (strings) => stringifier(strings).join("|");
 export const enumerate = (array) => {
   let enumeratedStringArray = "";
   let line;
-  
-  const enumHandler = (index, el) => `${index}. ${String(el)}`; 
 
-  array.slice(0, array.length-1).forEach((el, index) => {
+  const enumHandler = (index, el) => `${index}. ${String(el)}`;
+
+  array.slice(0, array.length - 1).forEach((el, index) => {
     line = `${enumHandler(index, el)}\n`;
     enumeratedStringArray += line;
   });
 
-  const id = array.length-1;
+  const id = array.length - 1;
   return enumeratedStringArray + enumHandler(id, array[id]);
 };
 

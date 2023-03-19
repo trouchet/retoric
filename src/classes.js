@@ -1,16 +1,12 @@
 import { isBoolean } from "lodash";
-import { 
-  isConjunctionProperty, 
-  isDisjunctionProperty, 
-  isPremiseProperty 
-} from "./checkers";
+import { isConjunctionProperty, isDisjunctionProperty, isPremiseProperty } from "./checkers";
 
-import { 
-  conjunctionPropertyError, 
-  disjunctionPropertyError, 
-  InterfaceError, 
-  premisePropertyError, 
-  reasoningPropertyError 
+import {
+  conjunctionPropertyError,
+  disjunctionPropertyError,
+  InterfaceError,
+  premisePropertyError,
+  reasoningPropertyError,
 } from "./errors";
 import { raise } from "./sys";
 
@@ -26,11 +22,11 @@ import {
   toReasoningCandidate,
 } from "./utils";
 
-const DELIMITER=':';
-const LEFT_BRACKET='(';
-const RIGHT_BRACKET=')';
+const DELIMITER = ":";
+const LEFT_BRACKET = "(";
+const RIGHT_BRACKET = ")";
 
-const ambiguationMessage = 'We cannot disambiguate {Premise,Disjunction,Conjunction} on Reasoning.';
+const ambiguationMessage = "We cannot disambiguate {Premise,Disjunction,Conjunction} on Reasoning.";
 const ambiguationError = () => new InterfaceError(ambiguationMessage);
 
 export class Reasoning {
@@ -40,7 +36,7 @@ export class Reasoning {
   constructor(key, description, value) {
     const candidate = toReasoningCandidate(key, description, value);
 
-    if(isPremiseProperty(candidate) || isConjunctionProperty(candidate)) {
+    if (isPremiseProperty(candidate) || isConjunctionProperty(candidate)) {
       this.key = key;
       this.description = description;
       this.value = value;
@@ -114,8 +110,9 @@ export class Premise_ extends Reasoning {
   constructor(key, description, value) {
     const candidate = toReasoningCandidate(key, description, value);
 
-    isPremiseProperty(candidate) ? super(key, description, value) : 
-    raise(premisePropertyError(candidate));    
+    isPremiseProperty(candidate)
+      ? super(key, description, value)
+      : raise(premisePropertyError(candidate));
   }
 
   toArgument() {
@@ -134,41 +131,41 @@ export class Premise_ extends Reasoning {
 let junctionMixin = {
   premiseValues() {
     return applyConclusion(this.value);
-  }, 
+  },
   arguments() {
     return applyArguing(this.value);
-  }, 
+  },
   bullets() {
     return enumerate(this.arguments());
-  }, 
+  },
   tokens() {
     return applySummary(this.value);
-  }, 
+  },
   summary() {
     return this._delimiterMap(this.tokens());
-  }, 
+  },
   toPitch() {
-    return this.description+': '+this.conclude()+'\n'+this.bullets();
-  }, 
+    return this.description + ": " + this.conclude() + "\n" + this.bullets();
+  },
   toPremise() {
-    return new Premise_(this.key, this.description+' '+this.summary(), this.conclude());
-  }, 
+    return new Premise_(this.key, this.description + " " + this.summary(), this.conclude());
+  },
   toArgument() {
     return this.arguments();
-  }, 
+  },
   toConclusion() {
     return this._conclusionMap(this.premiseValues());
-  }, 
+  },
   verbalize() {
     return this.toPremise().toString();
-  }
-}
+  },
+};
 
 export class Conjunction_ extends Reasoning {
   constructor(key, description, value) {
-    const candidate = toReasoningCandidate(key, description, value); 
-    
-    if(isConjunctionProperty(candidate)) {
+    const candidate = toReasoningCandidate(key, description, value);
+
+    if (isConjunctionProperty(candidate)) {
       super(key, description, value);
       this._conclusionMap = batchAnd;
       this._delimiterMap = andify;
@@ -180,9 +177,9 @@ export class Conjunction_ extends Reasoning {
 
 export class Disjunction_ extends Reasoning {
   constructor(key, description, value) {
-    const candidate = { 'key': key, 'description': description, 'value': value};    
-    
-    if(isDisjunctionProperty(candidate)) {
+    const candidate = { key: key, description: description, value: value };
+
+    if (isDisjunctionProperty(candidate)) {
       super(key, description, value);
       this._conclusionMap = batchOr;
       this._delimiterMap = orify;
