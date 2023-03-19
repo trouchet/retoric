@@ -17,7 +17,10 @@ const config = {
       "http": require.resolve("stream-http"),
       "https": require.resolve("https-browserify"),
       "zlib": require.resolve("browserify-zlib"),
-      "path": require.resolve("path-browserify")
+      "path": require.resolve("path-browserify"),
+      "util": require.resolve("util/"),
+      "stream": require.resolve("stream-browserify"),
+      "fs": require.resolve("fs")
     }
   },
   externals: {
