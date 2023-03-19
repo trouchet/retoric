@@ -23,7 +23,7 @@ import {
   applyArguing,
   applySummary,
   toReasoningCandidate,
-} from "./utils";
+} from "./utils.js";
 
 const DELIMITER = ":";
 const LEFT_BRACKET = "(";

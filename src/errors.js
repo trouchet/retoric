@@ -1,6 +1,6 @@
 import { isBoolean, isNumber, isString } from "lodash";
-import { isPremiseArtifactArray } from "./checkers";
-import { Conjunction_, Premise_ } from "./classes";
+import { isPremiseArtifactArray } from "./checkers.js";
+import { Conjunction_, Premise_ } from "./classes.js";
 
 export class NotImplementedError extends Error {
   constructor(message = "") {

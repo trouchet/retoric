@@ -1,5 +1,5 @@
 import { warn, raise, report, joke, debug } from "../sys.js";
-import { log, logMessage } from "../logger.js";
+import { log } from "../logger.js";
 
 jest.mock("../logger.js");
 
