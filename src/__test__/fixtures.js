@@ -1,11 +1,11 @@
-import { Conjunction, Disjunction, Premise, Reasoning } from "../classes";
+import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes";
 
 // Reasons
 export const reason = new Reasoning("reason", "This is a reason", true);
 
 // Premises
-export const truePremise = new Premise("true_premise", "This is a true premise", true);
-export const falsePremise = new Premise("false_premise", "This is a false premise", false);
+export const truePremise = new Premise_("true_premise", "This is a true premise", true);
+export const falsePremise = new Premise_("false_premise", "This is a false premise", false);
 
 export const expectedTruePremiseConclusion = true;
 export const expectedFalsePremiseConclusion = false;
@@ -46,7 +46,7 @@ export const expectedSingleInjConjVerbalizations = ["(true_premise:true)", "(fal
 export const disjunctions = [];
 export const conjunctions = [];
 
-let disjunction, conjunction;
+export let disjunction, conjunction;
 let injprops, conjprops;
 
 const descriptionCallback = (name) => `This is a ${name}`;
@@ -64,19 +64,33 @@ for (const i in premiseArtifacts) {
     value: premiseArtifacts[i],
   };
 
-  disjunction = new Disjunction(injprops.key, injprops.description, injprops.value);
-  conjunction = new Conjunction(conjprops.key, conjprops.description, conjprops.value);
+  disjunction = new Disjunction_(injprops.key, injprops.description, injprops.value);
+  conjunction = new Conjunction_(conjprops.key, conjprops.description, conjprops.value);
 
   disjunctions.push(disjunction);
   conjunctions.push(conjunction);
 }
 
 // Pitches
-export const expectedInjConjPitches = [
-  "0. This is a true premise: true\n1. This is a true premise: true",
-  "0. This is a true premise: true\n1. This is a false premise: false",
-  "0. This is a false premise: false\n1. This is a true premise: true",
-  "0. This is a false premise: false\n1. This is a false premise: false"
+export const expectedConjunctionPitches = [
+  "This is a conjunction: true\n0. This is a true premise: true\n1. This is a true premise: true",
+  "This is a conjunction: false\n0. This is a true premise: true\n1. This is a false premise: false",
+  "This is a conjunction: false\n0. This is a false premise: false\n1. This is a true premise: true",
+  "This is a conjunction: false\n0. This is a false premise: false\n1. This is a false premise: false"
+];
+
+export const expectedDisjunctionsPitches = [
+  "This is a disjunction: true\n0. This is a true premise: true\n1. This is a true premise: true",
+  "This is a disjunction: true\n0. This is a true premise: true\n1. This is a false premise: false",
+  "This is a disjunction: true\n0. This is a false premise: false\n1. This is a true premise: true",
+  "This is a disjunction: false\n0. This is a false premise: false\n1. This is a false premise: false"
+];
+
+export const expectedJunctionsArguments = [
+  ["This is a true premise: true", "This is a true premise: true"],
+  ["This is a true premise: true", "This is a false premise: false"],
+  ["This is a false premise: false", "This is a true premise: true"],
+  ["This is a false premise: false", "This is a false premise: false"]
 ];
 
 // Disjunctions

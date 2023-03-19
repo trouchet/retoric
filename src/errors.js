@@ -1,6 +1,6 @@
 import { isBoolean, isNumber, isString } from "lodash";
 import { isPremiseArtifactArray } from "./checkers";
-import { Conjunction, Premise } from "./classes";
+import { Conjunction_, Premise_ } from "./classes";
 
 export class NotImplementedError extends Error {
   constructor(message = "") {
@@ -23,7 +23,7 @@ export class OperationError extends TypeError {
   }
 }
 
-export class UnexpectedReasoningError extends TypeError {
+  export class UnexpectedReasoningError extends TypeError {
   constructor() {
     super("We expected a Reasoning candidate i.e. {Reasoning, Premise, Conjunction, Disjunction}.");
     this.name = "UnexpectedReasoningError";
@@ -42,45 +42,45 @@ export class ReasoningPropertyError extends TypeError {
     let candidateType, suggestionMessage, premises;
     let reasoning;
     let emessage;
-
-    const isReasoningType = isNumber(claimedCandidateType) && 
-      (claimedCandidateType >=0) && (claimedCandidateType <= 2)
-
+    
+    const hasReasoningType = Object.keys(reasoningErrorMap).includes(String(claimedCandidateType));
+    const isReasoningType = isNumber(claimedCandidateType) && hasReasoningType;
+    
     if(isReasoningType) {
       if(claimedCandidateType===-1) {
         premises=[
-          new Premise(
+          new Premise_(
             'keyIsString', 
             'Property key must be string', 
             isString(candidateProps.key)
           ),
-          new Premise(
+          new Premise_(
             'descriptionIsString', 
             'Property key must be string', 
             isString(candidateProps.description)
           ),
-          new Premise(
+          new Premise_(
             'valueIsBooleanOrPremise2Array', 
             'Property value must be boolean or a Premise Array array with at least 2 elements', 
             isBoolean(candidateProps.value) || isPremiseArtifactArray(candidateProps.value)
           ),
         ];
-        
+
         suggestionMessage = '';
 
       } else if(claimedCandidateType===0) {
         premises=[
-          new Premise(
+          new Premise_(
             'keyIsString', 
             'Property key must be string', 
             isString(candidateProps.key)
           ),
-          new Premise(
+          new Premise_(
             'descriptionIsString', 
             'Property key must be string', 
             isString(candidateProps.description)
           ),
-          new Premise(
+          new Premise_(
             'valueIsBoolean', 
             'Property value must be boolean', 
             isBoolean(candidateProps.value)
@@ -91,17 +91,17 @@ export class ReasoningPropertyError extends TypeError {
 
       } else if(claimedCandidateType===1 || claimedCandidateType===2) {
         premises=[
-          new Premise(
+          new Premise_(
             'keyIsString', 
             'Property key must be string', 
             isString(candidateProps.key)
           ),
-          new Premise(
+          new Premise_(
             'descriptionIsString', 
             'Property key must be string', 
             isString(candidateProps.description)
           ),
-          new Premise(
+          new Premise_(
             'valueIsBoolean', 
             'Property value must be a Premise Array array with at least 2 elements', 
             isPremiseArtifactArray(candidateProps.value) ? candidateProps.value.length >= 2 : false
@@ -109,21 +109,23 @@ export class ReasoningPropertyError extends TypeError {
         ];
 
         suggestionMessage = "In case you have a single Reasoning object, we suggest to use Premise class."
-      } else {
+      } 
+    } else {
       emessage=`Candidate type must be ${JSON.stringify(reasoningErrorMap)}`;
       throw TypeError(emessage);
-      }
     }
     
     candidateType=reasoningErrorMap[claimedCandidateType];
 
-    reasoning = new Conjunction(
+    reasoning = new Conjunction_(
       `${candidateType}Advocate`, `A ${candidateType} on Reasoning must have valid properties`, premises
     )
-
-    const headerMessage = `${candidateType} properties (key, description, value) must: `;
-    
-    super(headerMessage+"\n"+reasoning.pitch()+"\n"+suggestionMessage);
-    this.name = "ReasoningError";
+      
+    super(reasoning.pitch()+"\n"+suggestionMessage);
+    this.name = "ReasoningPropertyError";
   }
 }
+export const reasoningPropertyError = (candidate) => new ReasoningPropertyError(candidate, -1);
+export const premisePropertyError = (candidate) => new ReasoningPropertyError(candidate, 0);
+export const conjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 1);
+export const disjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 2);

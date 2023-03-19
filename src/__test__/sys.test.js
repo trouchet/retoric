@@ -1,13 +1,13 @@
-import { warn, raise, report, joke } from "../sys.js";
+import { warn, raise, report, joke, debug } from "../sys.js";
 import { log, logMessage } from "../logger.js";
 
 jest.mock("../logger.js");
 
 describe("warn/raise/report/joke", () => {
-  it("should throw error", () => expect(() => raise(Error, "Fire!")).toThrowError(Error));
+  it("should throw error", () => expect(() => raise(Error("Fire!"))).toThrowError(Error));
 
   it("should throw TypeError", () => {
-    expect(() => raise(TypeError, "Wrong is not right!")).toThrowError(TypeError);
+    expect(() => raise(new TypeError("Wrong is not right!")).toThrowError(TypeError));
   });
 
   it("should call log on report", () => {
@@ -15,7 +15,12 @@ describe("warn/raise/report/joke", () => {
     expect(log).toHaveBeenCalled();
   });
 
-  it("should call log", () => {
+  it("should call debug on report", () => {
+    debug(':-)');
+    expect(log).toHaveBeenCalled();
+  });
+
+  it("should call log on joke", () => {
     joke('News!');
     expect(log).toHaveBeenCalled();
   });

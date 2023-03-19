@@ -4,6 +4,14 @@ import { isReasoning, isPremise } from "./checkers";
 import { apply } from "arqeo";
 import { OperationError } from "./errors";
 
+export const toReasoningCandidate = (
+  key=undefined, 
+  description=undefined, 
+  value=undefined
+) => {
+  return { 'key': key, 'description': description, 'value': value};
+};
+
 /*----------------------------------------------------------------------------------------------*\
  | Boolean operators                                                                            |
 \*----------------------------------------------------------------------------------------------*/
@@ -73,8 +81,12 @@ export const enumerate = (array) => {
 const pitchCallback = (premise) => premise.pitch();
 const verbalizeCallback = (premise) => premise.verbalize();
 const concludeCallback = (premise) => premise.conclude();
+const argueCallback = (premise) => premise.argue();
+const summarizeCallback = (premise) => premise.summarize();
 
 // Apply callbacks
 export const applyPitch = (premises) => applyReasoningArtifact(premises, pitchCallback);
 export const applyVerbalization = (premises) => applyReasoningArtifact(premises, verbalizeCallback);
 export const applyConclusion = (premises) => applyReasoningArtifact(premises, concludeCallback);
+export const applyArguing = (premises) => applyReasoningArtifact(premises, argueCallback);
+export const applySummary = (premises) => applyReasoningArtifact(premises, summarizeCallback);

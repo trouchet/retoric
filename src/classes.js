@@ -5,17 +5,25 @@ import {
   isPremiseProperty 
 } from "./checkers";
 
-import { InterfaceError, ReasoningPropertyError } from "./errors";
+import { 
+  conjunctionPropertyError, 
+  disjunctionPropertyError, 
+  InterfaceError, 
+  premisePropertyError, 
+  reasoningPropertyError 
+} from "./errors";
 import { raise } from "./sys";
 
 import {
   andify,
   orify,
-  applyReasoningArtifact,
   batchAnd,
   batchOr,
   enumerate,
   applyConclusion,
+  applyArguing,
+  applySummary,
+  toReasoningCandidate,
 } from "./utils";
 
 const DELIMITER=':';
@@ -25,17 +33,12 @@ const RIGHT_BRACKET=')';
 const ambiguationMessage = 'We cannot disambiguate {Premise,Disjunction,Conjunction} on Reasoning.';
 const ambiguationError = () => new InterfaceError(ambiguationMessage);
 
-const reasoningPropertyError = (candidate) => new ReasoningPropertyError(candidate, -1);
-const premisePropertyError = (candidate) => new ReasoningPropertyError(candidate, 0);
-const conjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 1);
-const disjunctionPropertyError = (candidate) => new ReasoningPropertyError(candidate, 2);
-
 export class Reasoning {
   _conclusionMap = undefined;
   _delimiterMap = undefined;
 
   constructor(key, description, value) {
-    const candidate = { 'key': key, 'description': description, 'value': value};
+    const candidate = toReasoningCandidate(key, description, value);
 
     if(isPremiseProperty(candidate) || isConjunctionProperty(candidate)) {
       this.key = key;
@@ -107,10 +110,10 @@ export class Reasoning {
   }
 }
 
-export class Premise extends Reasoning {
+export class Premise_ extends Reasoning {
   constructor(key, description, value) {
-    const candidate = { 'key': key, 'description': description, 'value': value};
-    
+    const candidate = toReasoningCandidate(key, description, value);
+
     isPremiseProperty(candidate) ? super(key, description, value) : 
     raise(premisePropertyError(candidate));    
   }
@@ -128,34 +131,27 @@ export class Premise extends Reasoning {
   }
 }
 
-const concludeCallback = (premise) => premise.conclude();
-const argueCallback = (premise) => premise.argue();
-const summarizeCallback = (premise) => premise.summarize();
-const pitchCallback = (premise) => premise.toPitch();
-
 let junctionMixin = {
   premiseValues() {
-    return applyReasoningArtifact(this.value, concludeCallback);
+    return applyConclusion(this.value);
   }, 
   arguments() {
-    return applyReasoningArtifact(this.value, argueCallback);
+    return applyArguing(this.value);
   }, 
   bullets() {
     return enumerate(this.arguments());
   }, 
   tokens() {
-    return applyReasoningArtifact(this.value, summarizeCallback);
+    return applySummary(this.value);
   }, 
   summary() {
     return this._delimiterMap(this.tokens());
   }, 
   toPitch() {
-    const descriptions = applyReasoningArtifact(this.value, pitchCallback);
-
-    return enumerate(descriptions);
+    return this.description+': '+this.conclude()+'\n'+this.bullets();
   }, 
   toPremise() {
-    return new Premise(this.key, this.description+' '+this.summary(), this.conclude());
+    return new Premise_(this.key, this.description+' '+this.summary(), this.conclude());
   }, 
   toArgument() {
     return this.arguments();
@@ -168,9 +164,9 @@ let junctionMixin = {
   }
 }
 
-export class Conjunction extends Reasoning {
+export class Conjunction_ extends Reasoning {
   constructor(key, description, value) {
-    const candidate = { 'key': key, 'description': description, 'value': value};    
+    const candidate = toReasoningCandidate(key, description, value); 
     
     if(isConjunctionProperty(candidate)) {
       super(key, description, value);
@@ -182,7 +178,7 @@ export class Conjunction extends Reasoning {
   }
 }
 
-export class Disjunction extends Reasoning {
+export class Disjunction_ extends Reasoning {
   constructor(key, description, value) {
     const candidate = { 'key': key, 'description': description, 'value': value};    
     
@@ -196,5 +192,5 @@ export class Disjunction extends Reasoning {
   }
 }
 
-Object.assign(Conjunction.prototype, junctionMixin);
-Object.assign(Disjunction.prototype, junctionMixin);
+Object.assign(Conjunction_.prototype, junctionMixin);
+Object.assign(Disjunction_.prototype, junctionMixin);
