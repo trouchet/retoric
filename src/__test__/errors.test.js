@@ -93,8 +93,8 @@ describe("errors", () => {
     expect(error.name).toMatch(name);
 
     message = messageCallback("whatever");
-    errorThrowOnConstruct = () => errorCallback({}, 3);
+    error = () => errorCallback({}, 3);
 
-    expect(errorThrowOnConstruct).toThrow(TypeError);
+    expect(error).toThrow(TypeError);
   });
 });
