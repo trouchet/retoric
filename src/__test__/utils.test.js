@@ -1,6 +1,6 @@
 import { isNumber } from "lodash";
-import { isReasoningArtifact } from "../checkers";
-import { OperationError } from "../errors";
+import { isReasoningArtifact } from "../checkers.js";
+import { OperationError } from "../errors.js";
 import {
   applyReasoningArtifact,
   getPremiseKeys,
@@ -17,13 +17,13 @@ import {
   batchOperation,
   hyphenify,
   enumerate,
-} from "../utils";
+} from "../utils.js";
 import {
   expectedPremisesEntries,
   expectedPremisesKeys,
   premises,
   expectedPremisesConclusions,
-} from "./fixtures";
+} from "./fixtures.js";
 
 const concludeCallback = (premise) => premise.conclude();
 

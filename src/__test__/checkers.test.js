@@ -11,8 +11,8 @@ import {
   isPremiseProperty,
   isReasoningArtifact,
   reasoningType,
-} from "../checkers";
-import { premises, conjunctions, disjunctions } from "./fixtures";
+} from "../checkers.js";
+import { premises, conjunctions, disjunctions } from "./fixtures.js";
 
 let result, expectation;
 

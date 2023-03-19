@@ -1,5 +1,8 @@
-import { isBoolean } from "lodash";
-import { isConjunctionProperty, isDisjunctionProperty, isPremiseProperty } from "./checkers";
+import { 
+  isConjunctionProperty, 
+  isDisjunctionProperty, 
+  isPremiseProperty 
+} from "./checkers.js";
 
 import {
   conjunctionPropertyError,
@@ -7,8 +10,8 @@ import {
   InterfaceError,
   premisePropertyError,
   reasoningPropertyError,
-} from "./errors";
-import { raise } from "./sys";
+} from "./errors.js";
+import { raise } from "./sys.js";
 
 import {
   andify,

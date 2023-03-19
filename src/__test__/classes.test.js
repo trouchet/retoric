@@ -1,6 +1,6 @@
-import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes";
-import { InterfaceError, ReasoningError, ReasoningPropertyError } from "../errors";
-import { applyArguing, applyConclusion, applyPitch, applyVerbalization } from "../utils";
+import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes.js";
+import { InterfaceError, ReasoningError, ReasoningPropertyError } from "../errors.js";
+import { applyArguing, applyConclusion, applyPitch, applyVerbalization } from "../utils.js";
 import {
   disjunctions,
   premises,

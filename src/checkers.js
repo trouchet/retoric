@@ -1,9 +1,9 @@
 import { isArray, isBoolean, isObject, isString, isUndefined } from "lodash";
 import { is } from "arqeo";
 
-import { Conjunction_, Disjunction_, Premise_, Reasoning } from "./classes";
-import { raise } from "./sys";
-import { UnexpectedReasoningError } from "./errors";
+import { Conjunction_, Disjunction_, Premise_, Reasoning } from "./classes.js";
+import { raise } from "./sys.js";
+import { UnexpectedReasoningError } from "./errors.js";
 
 export const isDefined = (candidate) => !isUndefined(candidate);
 export const isReasoning = (candidate) => candidate instanceof Reasoning;

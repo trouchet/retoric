@@ -3,9 +3,9 @@ import {
   NotImplementedError,
   ReasoningPropertyError,
   UnexpectedReasoningError,
-} from "../errors";
-import { toReasoningCandidate } from "../utils";
-import { truePremise } from "./fixtures";
+} from "../errors.js";
+import { toReasoningCandidate } from "../utils.js";
+import { truePremise } from "./fixtures.js";
 
 // Apply callbacks
 jest.mock("../sys.js");

@@ -1,4 +1,4 @@
-import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes";
+import { Conjunction_, Disjunction_, Premise_, Reasoning } from "../classes.js";
 
 // Reasons
 export const reason = new Reasoning("reason", "This is a reason", true);

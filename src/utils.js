@@ -1,8 +1,8 @@
 import { isArray, isBoolean } from "lodash";
-import { isReasoning, isPremise } from "./checkers";
+import { isReasoning, isPremise } from "./checkers.js";
 
 import { apply } from "arqeo";
-import { OperationError } from "./errors";
+import { OperationError } from "./errors.js";
 
 export const toReasoningCandidate = (
   key = undefined,
