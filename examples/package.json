@@ -17,6 +17,6 @@
     "nodemon": "^2.0.21"
   },
   "dependencies": {
-    "retoric": "^0.2.1"
+    "retoric": "^0.2.2"
   }
 }
