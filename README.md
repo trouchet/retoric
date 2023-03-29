@@ -26,10 +26,6 @@ The callback-concepts are:
 
 1. ___conclusionMap__: a boolean map for conclusion-reduce operation
 
-## Backlog
-
-1. Allow property __value__ to be a Reasoning artifact i.e. {Premise|Injunction|Conjunction} or an array with such objects.
-
 ## Use cases
 
 The interested reader may access use-cases described above on test files available on code folders below: 
@@ -37,3 +33,6 @@ The interested reader may access use-cases described above on test files availab
 1. __Objects__: src/\_\_test\_\_/classes.test.js
 2. __Checkers__: src/\_\_test\_\_/checkers.test.js
 
+## Backlog
+
+1. Allow property __value__ to be a Reasoning artifact i.e. {Premise|Injunction|Conjunction} or an array with such objects.
