@@ -20,11 +20,15 @@ The properties-concepts are:
 
 1. __key__: A string key-variable to ;
 2. __description__: A string description of Reasoning object;
-3. __value__: Either a boolean or a {Premise|Injunction|Conjunction} artifact;
+3. __value__: Either a boolean or a Premise artifact;
 
 The callback-concepts are:
 
 1. ___conclusionMap__: a boolean map for conclusion-reduce operation
+
+## Backlog
+
+1. Allow property __value__ to be a Reasoning artifact i.e. {Premise|Injunction|Conjunction} or an array with such objects.
 
 ## Use cases
 
