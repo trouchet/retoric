@@ -42,7 +42,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "nodemon": "^2.0.21",
     "np": "^3.0.4",
-    "prettier": "^2.8.4",
+    "prettier": "^3.0.0",
     "ts-jest": "^29.0.5",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
